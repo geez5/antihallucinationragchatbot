@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://example.com/home",
+    "title": "Welcome to doitchatbot Chatbot",
+    "text": "doitchatbot is an advanced RAG (Retrieval-Augmented Generation) chatbot. It is built to accurately answer user questions using semantic search over a designated knowledge base. By converting web pages into chunks and calculating their vector embeddings via Google's Gemini models, doitchatbot ensures high accuracy and significantly reduces AI hallucinations.",
+    "headings": [
+      "Introduction",
+      "How doitchatbot Works"
+    ],
+    "crawled_at": "2026-05-04T12:00:00Z"
+  },
+  {
+    "url": "https://example.com/architecture",
+    "title": "doitchatbot System Architecture",
+    "text": "The architecture of doitchatbot consists of a web crawler, a vector database, and an LLM integration layer. We use ChromaDB as our local persistent vector database. The ingestion pipeline chunks text into 400-word segments with an 80-word overlap, preventing loss of context. These chunks are stored securely along with their source URLs to provide citations.",
+    "headings": [
+      "Vector Database",
+      "Data Ingestion Pipeline"
+    ],
+    "crawled_at": "2026-05-04T12:05:00Z"
+  },
+  {
+    "url": "https://example.com/about",
+    "title": "About Our Technology",
+    "text": "We rely on the models/text-embedding-004 endpoint from Google Generative AI to create dense representations of text. These embeddings capture the semantic meaning of sentences, enabling doitchatbot to retrieve the most relevant paragraphs when a user asks a question, even if the exact keywords do not match.",
+    "headings": [
+      "Embeddings",
+      "Semantic Search"
+    ],
+    "crawled_at": "2026-05-04T12:10:00Z"
+  }
+]
