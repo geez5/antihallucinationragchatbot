@@ -1,132 +1,176 @@
+"""
+ingest.py — Veritas RAG Chatbot Ingestion Pipeline
+====================================================
+Reads pages.json, chunks each page's content, embeds with Gemini
+text-embedding-004, and stores in ChromaDB collection "veritas".
+
+Run with:
+    python ingest.py
+"""
+
 import os
 import json
 import time
 import chromadb
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 
-# SETUP: Load .env and configure Gemini
+# ==============================================================================
+# SETUP
+# ==============================================================================
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    print("Error: GEMINI_API_KEY not found in environment variables.")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    print("ERROR: GEMINI_API_KEY not found in .env file.")
     exit(1)
 
-genai.configure(api_key=api_key)
+# New google-genai SDK client
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+EMBEDDING_MODEL = "models/text-embedding-004"
 
-# Create a ChromaDB PersistentClient stored at path ./chroma_db
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
+# ChromaDB — stored at ./chroma_db relative to this script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CHROMA_PATH = os.path.join(BASE_DIR, "chroma_db")
 
-# Create or get collection with cosine metric
+chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma_client.get_or_create_collection(
-    name="doitchatbot",
-    metadata={"hnsw:space": "cosine"}
+    name="veritas",
+    metadata={"hnsw:space": "cosine"},
 )
 
-def get_chunks(text, chunk_size=400, overlap=80):
-    """Splits text into chunks of `chunk_size` words with `overlap` word overlap."""
+print(f"ChromaDB connected at: {CHROMA_PATH}")
+print(f"Collection 'veritas' currently has {collection.count()} vectors.\n")
+
+# ==============================================================================
+# CHUNKING
+# ==============================================================================
+def get_chunks(text: str, chunk_size: int = 400, overlap: int = 80) -> list[str]:
+    """
+    Splits text into chunks of `chunk_size` words with `overlap` word overlap.
+    Skips chunks shorter than 60 characters.
+    """
     words = text.split()
     chunks = []
     i = 0
     while i < len(words):
-        chunk_words = words[i:i + chunk_size]
+        chunk_words = words[i : i + chunk_size]
         chunk_text = " ".join(chunk_words)
-        
-        # Skip any chunk shorter than 60 characters
         if len(chunk_text) >= 60:
             chunks.append(chunk_text)
-            
-        i += (chunk_size - overlap)
+        i += chunk_size - overlap
     return chunks
 
-def get_embedding(text):
-    """Uses Gemini model to embed text, truncating to 8000 characters with retry logic."""
-    # Truncate text to 8000 characters before embedding
-    truncated_text = text[:8000]
-    
-    try:
-        result = genai.embed_content(
-            model="models/gemini-embedding-2",
-            content=truncated_text
-        )
-        return result['embedding']
-    except Exception as e:
-        # If it fails, wait 2 seconds and retry once
-        time.sleep(2)
-        try:
-            result = genai.embed_content(
-                model="models/gemini-embedding-2",
-                content=truncated_text
-            )
-            return result['embedding']
-        except Exception as e_retry:
-            print(f"Error embedding text after retry: {e_retry}")
-            return None
 
+# ==============================================================================
+# EMBEDDING
+# ==============================================================================
+def get_embedding(text: str) -> list[float] | None:
+    """
+    Embeds text using Gemini text-embedding-004.
+    Truncates to 8 000 characters, retries once on failure.
+    Returns the embedding list, or None if both attempts fail.
+    """
+    truncated = text[:8000]
+
+    def _call_api() -> list[float]:
+        result = gemini_client.models.embed_content(
+            model=EMBEDDING_MODEL,
+            contents=truncated,
+        )
+        return result.embeddings[0].values
+
+    # First attempt
+    try:
+        return _call_api()
+    except Exception as e:
+        print(f"    [WARNING] Embedding failed ({e}). Retrying in 2 s...")
+        time.sleep(2)
+
+    # Single retry
+    try:
+        return _call_api()
+    except Exception as e:
+        print(f"    [ERROR]   Embedding failed again ({e}). Skipping chunk.")
+        return None
+
+
+# ==============================================================================
+# MAIN INGESTION LOOP
+# ==============================================================================
 def main():
-    pages_file = "pages.json"
+    # Locate pages.json — check this script's dir first, then project root
+    pages_file = os.path.join(BASE_DIR, "pages.json")
     if not os.path.exists(pages_file):
-        # Fall back to parent directory in case it was run from the root
-        if os.path.exists("../pages.json"):
-            pages_file = "../pages.json"
-        else:
-            print(f"Error: {pages_file} not found. Run the crawler first.")
+        project_root = os.path.dirname(BASE_DIR)
+        pages_file = os.path.join(project_root, "pages.json")
+        if not os.path.exists(pages_file):
+            print("ERROR: pages.json not found. Run the crawler first.")
             return
 
-    with open(pages_file, 'r', encoding='utf-8') as f:
+    print(f"Loading pages from: {pages_file}")
+    with open(pages_file, "r", encoding="utf-8") as f:
         pages = json.load(f)
 
     total_pages = len(pages)
     total_chunks_stored = 0
+    total_chunks_skipped_existing = 0
+    total_chunks_skipped_error = 0
+
+    print(f"Found {total_pages} pages to process.\n")
+    print("=" * 60)
 
     for page_index, page in enumerate(pages):
-        url = page.get("url", "")
-        title = page.get("title", "")
-        # Check both 'content' and 'text' keys as crawler.py uses 'text'
-        content = page.get("content", page.get("text", ""))
-        crawled_at = page.get("crawled_at", "")
-        
-        # Split each page's content into chunks
+        url        = str(page.get("url",        ""))
+        title      = str(page.get("title",      "Untitled"))
+        content    = page.get("content", page.get("text", ""))
+        crawled_at = str(page.get("crawled_at", ""))
+
+        if not content or not content.strip():
+            print(f"[{page_index + 1}/{total_pages}] SKIP (no content): {title}")
+            continue
+
         chunks = get_chunks(content)
-        
-        print(f"[{page_index + 1}/{total_pages}] {title} — {len(chunks)} chunks")
-        
+        print(f"[{page_index + 1}/{total_pages}] {title} — {len(chunks)} chunk(s)")
+
         for chunk_index, chunk_text in enumerate(chunks):
-            # Create unique chunk ID
             chunk_id = f"page{page_index}_chunk{chunk_index}"
-            
-            # Check if chunk already exists in ChromaDB
+
+            # ── Dedup check: skip if already in ChromaDB ─────────────────────
             existing = collection.get(ids=[chunk_id])
             if existing and existing.get("ids"):
+                total_chunks_skipped_existing += 1
                 continue
-                
-            # Get Gemini embedding
+
+            # ── Embed ─────────────────────────────────────────────────────────
             embedding = get_embedding(chunk_text)
-            if not embedding:
-                # If it fails again, skip that chunk and log it
-                print(f"  -> Skipping chunk {chunk_id} due to embedding failure.")
+            if embedding is None:
+                total_chunks_skipped_error += 1
+                print(f"    -> Skipping {chunk_id} (embedding error).")
                 continue
-                
-            # Ensure metadata values are valid types (strings, ints, floats)
-            metadata = {
-                "url": str(url),
-                "title": str(title),
-                "crawled_at": str(crawled_at)
-            }
-            
-            # Store in ChromaDB
+
+            # ── Store in ChromaDB ─────────────────────────────────────────────
             collection.add(
                 ids=[chunk_id],
                 embeddings=[embedding],
                 documents=[chunk_text],
-                metadatas=[metadata]
+                metadatas=[{
+                    "url":        url,
+                    "title":      title,
+                    "crawled_at": crawled_at,
+                }],
             )
-            
             total_chunks_stored += 1
 
-    # Print final summary
-    print(f"\nFinal summary: {total_chunks_stored} total chunks stored")
+    # ── Final summary ─────────────────────────────────────────────────────────
+    print("=" * 60)
+    print(f"\nIngestion complete!")
+    print(f"  Pages processed  : {total_pages}")
+    print(f"  Chunks stored    : {total_chunks_stored}")
+    print(f"  Chunks skipped   : {total_chunks_skipped_existing} (already existed)")
+    print(f"  Chunks errored   : {total_chunks_skipped_error} (embedding failure)")
+    print(f"  Total in DB now  : {collection.count()}")
+
 
 if __name__ == "__main__":
     main()

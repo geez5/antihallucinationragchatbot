@@ -1,12 +1,24 @@
+"""
+main.py — Veritas RAG Chatbot Backend
+======================================
+Anti-Hallucination FastAPI backend with 10 safety layers.
+
+Run with:  uvicorn main:app --reload
+"""
+
 import os
 import time
+import logging
 import subprocess
 from typing import List, Optional
+
 from fastapi import FastAPI, Request, HTTPException, Header, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, field_validator
 import chromadb
-import google.generativeai as genai
+from google import genai
+from google.genai import types as genai_types
 from groq import Groq
 from sentence_transformers import CrossEncoder
 from dotenv import load_dotenv
@@ -16,54 +28,94 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
 # ==============================================================================
+# LOGGING
+# ==============================================================================
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
+
+# ==============================================================================
 # CONFIGURATION AND SETUP
 # ==============================================================================
 load_dotenv()
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-RECRAWL_SECRET = os.getenv("RECRAWL_SECRET", "super-secret-key")
+GROQ_API_KEY    = os.getenv("GROQ_API_KEY")
+GEMINI_API_KEY  = os.getenv("GEMINI_API_KEY")
+RECRAWL_SECRET  = os.getenv("RECRAWL_SECRET", "super-secret-key")
 
-# Setup Groq and Gemini clients
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-groq_client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
+# ── Embedding model (Gemini) ──────────────────────────────────────────────────
+if not GEMINI_API_KEY:
+    raise RuntimeError("GEMINI_API_KEY is not set. Check your .env file.")
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+EMBEDDING_MODEL = "models/text-embedding-004"
 
-# Setup ChromaDB
+# ── LLM client (Groq) ────────────────────────────────────────────────────────
+if not GROQ_API_KEY:
+    raise RuntimeError("GROQ_API_KEY is not set. Check your .env file.")
+groq_client = Groq(api_key=GROQ_API_KEY)
+
+# Main answer model  — Layer 5/6/7
+MAIN_LLM_MODEL  = "qwen-qwq-32b"
+# Fast-check model  — Layer 1 & 8
+FAST_LLM_MODEL  = "llama-3.1-8b-instant"
+
+# ── ChromaDB ─────────────────────────────────────────────────────────────────
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_or_create_collection(
-    name="doitchatbot",  # updated per your request
-    metadata={"hnsw:space": "cosine"}
+    name="veritas",
+    metadata={"hnsw:space": "cosine"},
+)
+logger.info("ChromaDB connected — collection 'veritas' has %d vectors.", collection.count())
+
+# ── Cross-Encoder Reranker — Layer 4 ─────────────────────────────────────────
+cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+logger.info("CrossEncoder loaded.")
+
+# ── Fallback message ─────────────────────────────────────────────────────────
+FALLBACK_MESSAGE = (
+    "I couldn't find that information on our website. "
+    "Please contact us directly for help."
 )
 
-# Setup Reranker (Cross-Encoder)
-cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+# ── Similarity threshold — Layer 3 ───────────────────────────────────────────
+SIMILARITY_THRESHOLD = 0.70
 
-# Setup FastAPI App and Rate Limiter
-limiter = Limiter(key_func=get_remote_address)
-app = FastAPI(title="doitchatbot Backend")
+# ==============================================================================
+# FASTAPI APP + RATE LIMITER
+# ==============================================================================
+limiter = Limiter(key_func=get_remote_address, default_limits=["20/minute"])
+app = FastAPI(
+    title="Veritas RAG Chatbot",
+    description="10-layer anti-hallucination RAG backend powered by Groq + Gemini + ChromaDB.",
+    version="2.0.0",
+)
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# CORS (Allow all for now)
+# ── CORS ─────────────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],   # Tighten this list before production
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-FALLBACK_MESSAGE = "I couldn't find that information on our website. Please contact us directly for help."
 
 # ==============================================================================
 # PYDANTIC MODELS
 # ==============================================================================
 class Message(BaseModel):
-    role: str
+    """A single turn in the chat history."""
+    role: str    # "user" or "assistant"
     content: str
 
+
 class ChatRequest(BaseModel):
+    """Request body for POST /chat."""
     question: str
     chat_history: List[Message] = []
 
@@ -72,245 +124,374 @@ class ChatRequest(BaseModel):
     def validate_question(cls, v: str) -> str:
         v = v.strip()
         if not v:
-            raise ValueError("Question cannot be empty")
+            raise ValueError("Question cannot be empty.")
         if len(v) > 500:
-            raise ValueError("Question cannot exceed 500 characters")
+            raise ValueError("Question cannot exceed 500 characters.")
         return v
 
+
 class ChatResponse(BaseModel):
+    """Response body for POST /chat."""
     answer: str
     sources: List[str]
     source_titles: List[str]
 
+
 class FeedbackRequest(BaseModel):
+    """Request body for POST /feedback."""
     session_id: str
     rating: int
     question: str
     answer: str
 
+
+class FeedbackResponse(BaseModel):
+    """Response body for POST /feedback."""
+    status: str
+
+
+class HealthResponse(BaseModel):
+    """Response body for GET /health."""
+    status: str
+    db_count: int
+
+
 # ==============================================================================
 # HELPER FUNCTIONS
 # ==============================================================================
-def get_embedding(text: str) -> List[float]:
-    # Truncate text just in case before generating embedding
-    result = genai.embed_content(
-        model="models/gemini-embedding-2",
-        content=text[:8000]
-    )
-    return result['embedding']
 
-def check_intent(question: str) -> bool:
-    """Layer 1 - Intent Classifier: Checks if question relates to business."""
-    prompt = (
-        f"Is the following question related to business, products, services, website details, or customer support? "
-        f"Question: '{question}'. Answer strictly YES or NO."
+def get_embedding(text: str) -> List[float]:
+    """
+    Generate a Gemini text-embedding-004 embedding.
+    Truncates input to 8 000 chars to stay within API limits.
+    """
+    truncated = text[:8000]
+    result = gemini_client.models.embed_content(
+        model=EMBEDDING_MODEL,
+        contents=truncated,
     )
-    if not groq_client:
-        return True # fail open if no key
-        
+    return result.embeddings[0].values
+
+
+# ── Layer 1 — Intent Classifier ───────────────────────────────────────────────
+def check_intent(question: str) -> bool:
+    """
+    Returns True  → question is about the business (proceed).
+    Returns False → off-topic (return canned response).
+    Uses llama-3.1-8b-instant for a fast, cheap classification call.
+    """
+    prompt = (
+        "You are a strict topic classifier for a business website chatbot. "
+        "Determine whether the following question is related to ANY of these topics: "
+        "the company, its products, its services, its website, pricing, contact, support, "
+        "courses, mentorship, community, or anything a customer might ask a business. "
+        "Answer with exactly ONE word: YES or NO.\n\n"
+        f"Question: {question}"
+    )
     try:
         response = groq_client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model=FAST_LLM_MODEL,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0,
-            max_tokens=10
+            temperature=0,   # Layer 5 applies here too
+            max_tokens=5,
         )
-        text = response.choices[0].message.content.strip().upper()
-        return "YES" in text
-    except Exception:
-        return True # Fallback if API fails
-
-def verify_safe_response(context: str, answer: str) -> bool:
-    """Layer 8 - Guardrail self-check: Prevents hallucinations."""
-    if not groq_client:
+        verdict = response.choices[0].message.content.strip().upper()
+        logger.info("[Layer 1] Intent verdict: %s", verdict)
+        return "YES" in verdict
+    except Exception as exc:
+        # Fail open — if the classifier crashes, let the question through
+        logger.warning("[Layer 1] Intent check failed, failing open: %s", exc)
         return True
 
+
+# ── Layer 8 — Guardrail Self-Check ───────────────────────────────────────────
+def verify_safe_response(context: str, answer: str) -> bool:
+    """
+    Returns True  → answer is safely grounded in the context (SAFE).
+    Returns False → answer invents information (HALLUCINATION).
+    Uses llama-3.1-8b-instant for a quick second opinion.
+    """
     prompt = (
-        f"Context:\n{context}\n\n"
-        f"Answer:\n{answer}\n\n"
-        "Analyze the Answer against the Context. Does the Answer contain any specific factual claims, names, or details "
-        "that are NOT explicitly supported by the Context? "
-        "If it invents information, answer strictly HALLUCINATION. If it is safely grounded in the Context, answer strictly SAFE."
+        "You are a strict hallucination detector. "
+        "Your job is to check whether the ANSWER is fully supported by the CONTEXT provided. "
+        "Rules:\n"
+        "- If every factual claim in the ANSWER appears in the CONTEXT, reply: SAFE\n"
+        "- If the ANSWER contains ANY fact, name, number, date, or claim NOT in the CONTEXT, reply: HALLUCINATION\n"
+        "- Reply with EXACTLY one word only.\n\n"
+        f"CONTEXT:\n{context}\n\n"
+        f"ANSWER:\n{answer}"
     )
     try:
         response = groq_client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model=FAST_LLM_MODEL,
             messages=[{"role": "user", "content": prompt}],
             temperature=0,
-            max_tokens=10
+            max_tokens=5,
         )
-        text = response.choices[0].message.content.strip().upper()
-        return "HALLUCINATION" not in text
-    except Exception:
-        return False # Fail safe on error
+        verdict = response.choices[0].message.content.strip().upper()
+        logger.info("[Layer 8] Guardrail verdict: %s", verdict)
+        return "HALLUCINATION" not in verdict
+    except Exception as exc:
+        # Fail CLOSED — if the guardrail crashes, treat as hallucination
+        logger.warning("[Layer 8] Guardrail check failed, failing closed: %s", exc)
+        return False
 
-def run_recrawl_task():
-    """Background task to run crawler and ingestion scripts."""
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# ── Background task for /re-crawl ─────────────────────────────────────────────
+def run_recrawl_task() -> None:
+    """
+    Runs crawler.py (project root) then ingest.py (backend dir) sequentially.
+    Launched as a FastAPI BackgroundTask so the HTTP response returns immediately.
+    """
+    base_dir    = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(base_dir)
     crawler_script = os.path.join(project_root, "crawler.py")
-    ingest_script = os.path.join(base_dir, "ingest.py")
-    
-    print("Starting recrawl task...")
+    ingest_script  = os.path.join(base_dir,    "ingest.py")
+
+    logger.info("[Recrawl] Starting recrawl task...")
     try:
         if os.path.exists(crawler_script):
-            subprocess.run(["python", crawler_script], cwd=project_root, check=True)
-            print("Crawler finished.")
+            subprocess.run(
+                ["python", crawler_script],
+                cwd=project_root,
+                check=True,
+            )
+            logger.info("[Recrawl] Crawler finished.")
         else:
-            print("crawler.py not found.")
+            logger.warning("[Recrawl] crawler.py not found at %s", crawler_script)
 
         if os.path.exists(ingest_script):
-            subprocess.run(["python", ingest_script], cwd=base_dir, check=True)
-            print("Ingestion finished.")
+            subprocess.run(
+                ["python", ingest_script],
+                cwd=base_dir,
+                check=True,
+            )
+            logger.info("[Recrawl] Ingestion finished.")
         else:
-            print("ingest.py not found.")
-    except Exception as e:
-        print(f"Error during recrawl task: {e}")
+            logger.warning("[Recrawl] ingest.py not found at %s", ingest_script)
+
+    except subprocess.CalledProcessError as exc:
+        logger.error("[Recrawl] Script failed with exit code %d: %s", exc.returncode, exc)
+    except Exception as exc:
+        logger.error("[Recrawl] Unexpected error: %s", exc)
+
 
 # ==============================================================================
 # API ENDPOINTS
 # ==============================================================================
-@app.get("/")
-def home():
-    return {"message": "Backend is running 🚀"}
 
-@app.get("/health")
+@app.get("/", tags=["Meta"])
+def root():
+    """Quick sanity-check endpoint."""
+    return {"message": "Veritas RAG Chatbot backend is running 🚀"}
+
+
+@app.get("/health", response_model=HealthResponse, tags=["Meta"])
 async def health_check():
-    """Returns system status and vector DB count."""
+    """
+    GET /health
+    Returns system status and current vector count in ChromaDB.
+    """
     try:
         count = collection.count()
-        return {"status": "ok", "db_count": count}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
-
-@app.post("/feedback")
-async def receive_feedback(feedback: FeedbackRequest):
-    """Logs user feedback."""
-    print(f"[FEEDBACK] Session: {feedback.session_id} | Rating: {feedback.rating} | Q: {feedback.question}")
-    return {"status": "received"}
-
-@app.post("/re-crawl")
-async def trigger_recrawl(background_tasks: BackgroundTasks, x_api_key: Optional[str] = Header(None)):
-    """Triggers crawler and ingest scripts as a background task."""
-    if not x_api_key or x_api_key != RECRAWL_SECRET:
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
-    background_tasks.add_task(run_recrawl_task)
-    return {"status": "started"}
-
-@app.post("/seed")
-async def seed_test_data():
-    """Injects test data so the database isn't empty."""
-    try:
-        text = "Our company is a leading technology firm. We build advanced AI chatbot solutions using RAG technology for enterprise clients."
-        embedding = get_embedding(text)
-        collection.add(
-            ids=["test_doc_1"],
-            embeddings=[embedding],
-            documents=[text],
-            metadatas=[{"url": "https://example.com/about", "title": "About Our Company"}]
+        return HealthResponse(status="ok", db_count=count)
+    except Exception as exc:
+        logger.error("[Health] DB check failed: %s", exc)
+        return JSONResponse(
+            status_code=503,
+            content={"status": "error", "message": str(exc)},
         )
-        return {"status": "seeded"}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
 
-@app.post("/chat", response_model=ChatResponse)
+
+@app.post("/feedback", response_model=FeedbackResponse, tags=["Feedback"])
+async def receive_feedback(feedback: FeedbackRequest):
+    """
+    POST /feedback
+    Accepts user feedback and logs it. Returns {status: "received"}.
+    """
+    logger.info(
+        "[Feedback] session=%s | rating=%d | question=%r | answer=%r",
+        feedback.session_id,
+        feedback.rating,
+        feedback.question[:120],
+        feedback.answer[:120],
+    )
+    return FeedbackResponse(status="received")
+
+
+@app.post("/re-crawl", tags=["Admin"])
+async def trigger_recrawl(
+    background_tasks: BackgroundTasks,
+    x_api_key: Optional[str] = Header(None),
+):
+    """
+    POST /re-crawl
+    Protected by x-api-key header matching RECRAWL_SECRET env var.
+    Runs crawler.py then ingest.py as a background task.
+    """
+    if not x_api_key or x_api_key != RECRAWL_SECRET:
+        raise HTTPException(status_code=401, detail="Invalid or missing API key.")
+
+    background_tasks.add_task(run_recrawl_task)
+    logger.info("[Recrawl] Task queued.")
+    return {"status": "started", "message": "Recrawl task is running in the background."}
+
+
+@app.post("/chat", response_model=ChatResponse, tags=["Chat"])
 @limiter.limit("20/minute")
 async def chat(request: Request, body: ChatRequest):
-    question = body.question
-    
-    # LAYER 1: Intent classifier
+    """
+    POST /chat
+    Accepts {question, chat_history}. Returns {answer, sources, source_titles}.
+
+    Anti-hallucination pipeline:
+      Layer 1  — Intent classification (llama-3.1-8b-instant)
+      Layer 2  — Hybrid retrieval via ChromaDB + Gemini embeddings (n=10)
+      Layer 3  — Similarity threshold filter (≥ 0.70)
+      Layer 4  — Cross-encoder reranking, keep top 3
+      Layer 5  — temperature=0 on all Groq calls
+      Layer 6  — Strict system prompt (context-only, never own knowledge)
+      Layer 7  — max_tokens=512 cap
+      Layer 8  — Guardrail self-check (llama-3.1-8b-instant)
+      Layer 9  — Source citation attached to every answer
+      Layer 10 — Freshness handled by nightly recrawl (POST /re-crawl)
+    """
+    question = body.question   # already stripped + validated by Pydantic
+
+    # ── Layer 1: Intent Classifier ─────────────────────────────────────────
     if not check_intent(question):
+        logger.info("[Layer 1] Off-topic question blocked: %r", question[:80])
         return ChatResponse(
-            answer="I can only answer questions about our website and services.", 
-            sources=[], 
-            source_titles=[]
+            answer="I can only answer questions about our website and services.",
+            sources=[],
+            source_titles=[],
         )
-        
-    # LAYER 2: Hybrid retrieval (Query ChromaDB with Gemini embeddings)
+
+    # ── Layer 2: Hybrid Retrieval (ChromaDB + Gemini embeddings) ──────────
     try:
-        embedding = get_embedding(question)
+        query_embedding = get_embedding(question)
         results = collection.query(
-            query_embeddings=[embedding],
-            n_results=10
+            query_embeddings=[query_embedding],
+            n_results=10,
+            include=["documents", "metadatas", "distances"],
         )
-    except Exception as e:
-        return ChatResponse(answer=f"Exception in Embedding: {str(e)}", sources=[], source_titles=[])
+    except Exception as exc:
+        logger.error("[Layer 2] Retrieval failed: %s", exc)
+        # Surface a clean error rather than an opaque 500
+        raise HTTPException(status_code=502, detail=f"Vector DB retrieval error: {exc}")
 
-    if not results or not results['distances'] or not results['distances'][0]:
+    # Guard against empty DB or malformed results
+    if (
+        not results
+        or not results.get("documents")
+        or not results["documents"][0]
+    ):
+        logger.info("[Layer 2] No documents returned from ChromaDB.")
         return ChatResponse(answer=FALLBACK_MESSAGE, sources=[], source_titles=[])
 
-    # LAYER 3: Similarity threshold (> 0.70)
-    filtered_docs = []
-    filtered_metas = []
-    for doc, meta, dist in zip(results['documents'][0], results['metadatas'][0], results['distances'][0]):
-        # Chroma cosine distance: sim = 1 - distance
+    documents  = results["documents"][0]
+    metadatas  = results["metadatas"][0]
+    distances  = results["distances"][0]
+
+    # ── Layer 3: Similarity Threshold ─────────────────────────────────────
+    # ChromaDB cosine distance → similarity = 1 - distance
+    filtered: List[tuple] = []
+    for doc, meta, dist in zip(documents, metadatas, distances):
         similarity = 1.0 - dist
-        if similarity >= 0.70:
-            filtered_docs.append(doc)
-            filtered_metas.append(meta)
+        logger.debug("[Layer 3] doc=%r sim=%.4f", doc[:60], similarity)
+        if similarity >= SIMILARITY_THRESHOLD:
+            filtered.append((doc, meta, similarity))
 
-    if not filtered_docs:
+    if not filtered:
+        logger.info("[Layer 3] No chunks passed similarity threshold %.2f.", SIMILARITY_THRESHOLD)
         return ChatResponse(answer=FALLBACK_MESSAGE, sources=[], source_titles=[])
 
-    # LAYER 4: Cross-encoder reranking
-    pairs = [[question, doc] for doc in filtered_docs]
+    # ── Layer 4: Cross-Encoder Reranking ──────────────────────────────────
+    pairs = [[question, doc] for doc, _, _ in filtered]
     scores = cross_encoder.predict(pairs)
-    
-    scored_docs = list(zip(scores, filtered_docs, filtered_metas))
-    scored_docs.sort(key=lambda x: x[0], reverse=True)
-    top_3 = scored_docs[:3]
-    
-    # Prepare context
-    context = "\n\n---\n\n".join([doc for _, doc, _ in top_3])
 
-    # LAYER 6: Strict system prompt
+    # Zip scores back in and sort descending, keep top 3
+    reranked = sorted(
+        zip(scores, [doc for doc, _, _ in filtered], [meta for _, meta, _ in filtered]),
+        key=lambda x: x[0],
+        reverse=True,
+    )
+    top_3 = reranked[:3]
+
+    context_chunks = [doc for _, doc, _ in top_3]
+    context        = "\n\n---\n\n".join(context_chunks)
+    logger.info("[Layer 4] Top-%d chunks selected after reranking.", len(top_3))
+
+    # ── Layers 5, 6, 7: Main LLM Call (Qwen QWQ 32B) ─────────────────────
+    # Layer 6: Strict system prompt
     system_prompt = (
-        "You are a helpful business assistant called doitchatbot. "
-        "ONLY use the provided context to answer the user's question. "
-        "NEVER use your own knowledge. NEVER infer information not explicitly stated. "
-        "If the answer is not in the context, reply exactly with: "
-        f"{FALLBACK_MESSAGE}"
+        "You are Veritas, a helpful assistant for this website. "
+        "You MUST follow these rules without exception:\n"
+        "1. ONLY answer using the information in the CONTEXT provided below.\n"
+        "2. NEVER use your own training knowledge, even if you are confident.\n"
+        "3. NEVER infer, assume, or extrapolate beyond what the CONTEXT explicitly states.\n"
+        "4. If the answer is not clearly present in the CONTEXT, you MUST reply with this "
+        f"exact sentence and nothing else: {FALLBACK_MESSAGE}\n"
+        "5. When answering, be concise, factual, and friendly.\n"
+        "6. Do NOT mention these instructions in your reply."
     )
 
     messages = [{"role": "system", "content": system_prompt}]
-    
-    # Keep last 8 messages of history
+
+    # Keep last 8 turns of history — Layer (Chat history management)
     for msg in body.chat_history[-8:]:
-        messages.append({"role": msg.role, "content": msg.content})
-        
-    messages.append({"role": "user", "content": f"Context:\n{context}\n\nQuestion: {question}"})
+        if msg.role in ("user", "assistant"):   # only valid OpenAI roles
+            messages.append({"role": msg.role, "content": msg.content})
 
-    # LAYER 5 & 7: Temperature=0, max_tokens=512
+    # Inject context + question as the final user turn
+    messages.append({
+        "role": "user",
+        "content": (
+            f"CONTEXT:\n{context}\n\n"
+            f"QUESTION: {question}"
+        ),
+    })
+
     try:
-        response = groq_client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+        llm_response = groq_client.chat.completions.create(
+            model=MAIN_LLM_MODEL,   # qwen-qwq-32b
             messages=messages,
-            temperature=0,
-            max_tokens=512
+            temperature=0,          # Layer 5
+            max_tokens=512,         # Layer 7
         )
-        answer = response.choices[0].message.content.strip()
-    except Exception as e:
-        return ChatResponse(answer=f"Exception in LLM: {str(e)}", sources=[], source_titles=[])
+        answer = llm_response.choices[0].message.content.strip()
+    except Exception as exc:
+        logger.error("[Layer 6] LLM call failed: %s", exc)
+        raise HTTPException(status_code=502, detail=f"LLM error: {exc}")
 
-    # Check if LLM gracefully fell back
+    logger.info("[Layer 6] Raw answer length: %d chars", len(answer))
+
+    # If the model itself triggered the fallback, skip guardrail and return clean
     if answer == FALLBACK_MESSAGE:
         return ChatResponse(answer=answer, sources=[], source_titles=[])
 
-    # LAYER 8: Guardrail self-check
+    # ── Layer 8: Guardrail Self-Check ─────────────────────────────────────
     is_safe = verify_safe_response(context, answer)
     if not is_safe:
+        logger.warning("[Layer 8] Hallucination detected — returning fallback.")
         answer = FALLBACK_MESSAGE
 
-    # LAYER 9: Source citation
-    sources = []
-    source_titles = []
+    # ── Layer 9: Source Citation ───────────────────────────────────────────
+    sources: List[str]       = []
+    source_titles: List[str] = []
+
     if answer != FALLBACK_MESSAGE:
+        seen_urls: set = set()
         for _, _, meta in top_3:
-            url = meta.get("url", "")
-            title = meta.get("title", "")
-            if url and url not in sources:
+            url   = str(meta.get("url",   "")).strip()
+            title = str(meta.get("title", "")).strip()
+            if url and url not in seen_urls:
+                seen_urls.add(url)
                 sources.append(url)
                 source_titles.append(title)
-                
-    return ChatResponse(answer=answer, sources=sources, source_titles=source_titles)
+
+    return ChatResponse(
+        answer=answer,
+        sources=sources,
+        source_titles=source_titles,
+    )
