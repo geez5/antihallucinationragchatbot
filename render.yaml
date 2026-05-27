@@ -1,0 +1,47 @@
+# render.yaml — Veritas RAG Chatbot
+# ====================================
+# Place this file at the ROOT of your GitHub repository.
+# Render auto-detects it and pre-fills all service settings.
+#
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: doit-backend
+    runtime: python
+    rootDir: backend         # tells Render to cd into backend/ before building
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free               # change to "starter" or "standard" for paid tier
+
+    # ── Environment variables ────────────────────────────────────────────────
+    # sync: false  →  Render will NOT overwrite values you set in the dashboard.
+    # Set the actual values in Render Dashboard → Environment after first deploy.
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+
+      - key: GEMINI_API_KEY
+        sync: false
+
+      - key: JINA_API_KEY
+        sync: false
+
+      - key: RECRAWL_SECRET
+        sync: false
+
+      # Python optimisation flags — safe defaults for production
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"
+
+    # ── Health check ─────────────────────────────────────────────────────────
+    # Render pings this path to confirm the service is alive after deploy.
+    healthCheckPath: /health
+
+    # ── Auto-deploy ──────────────────────────────────────────────────────────
+    # Redeploys automatically every time you push to the branch below.
+    autoDeploy: true
+    branch: main
