@@ -1,128 +1,32 @@
 # ==============================================================================
 # requirements.txt — Veritas RAG Chatbot Backend
-# Clean, pinned, Render-safe. Generated from active venv then pruned.
+# Minimal direct dependencies only — let pip resolve transitive deps on Linux.
 # ==============================================================================
 
-# ── Web framework ──────────────────────────────────────────────────────────────
-fastapi==0.136.1
-uvicorn==0.46.0
-starlette==1.0.0
-python-dotenv==1.2.2
+# Web framework
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-dotenv==1.0.1
 
-# ── Rate limiting ──────────────────────────────────────────────────────────────
+# Rate limiting
 slowapi==0.1.9
-limits==5.8.0
 
-# ── LLM clients ───────────────────────────────────────────────────────────────
+# LLM clients
 groq==0.26.0
-google-generativeai==0.8.6
-google-ai-generativelanguage==0.6.15
-google-api-core==2.30.3
-google-api-python-client==2.195.0
-google-auth==2.50.0
-google-auth-httplib2==0.3.1
-googleapis-common-protos==1.74.0
-proto-plus==1.27.2
-protobuf==5.29.6
+google-generativeai==0.8.3
 
-# ── Vector store ──────────────────────────────────────────────────────────────
-chromadb==1.5.8
-onnxruntime==1.25.1
-tokenizers==0.23.1
-huggingface_hub==1.13.0
+# Vector store
+chromadb==0.5.23
 
-# ── HTTP / networking ──────────────────────────────────────────────────────────
-requests==2.33.1
-httpx==0.28.1
-httpcore==1.0.9
-httplib2==0.31.2
-anyio==4.13.0
-h11==0.16.0
-httptools==0.7.1
-sniffio==1.3.1
-websockets==16.0
-websocket-client==1.9.0
-urllib3==2.6.3
-certifi==2026.4.22
-idna==3.13
-charset-normalizer==3.4.7
+# Reranker (Jina REST API — no extra package needed, uses requests)
+requests==2.32.3
 
-# ── Data / serialization ───────────────────────────────────────────────────────
-pydantic==2.13.3
-pydantic_core==2.46.3
-pydantic-settings==2.14.0
-orjson==3.11.8
-PyYAML==6.0.3
+# HTTP
+httpx==0.27.2
 
-# ── Scraping (crawler.py) ──────────────────────────────────────────────────────
-beautifulsoup4==4.14.3
-lxml==6.1.0
-soupsieve==2.8.3
+# Data validation
+pydantic==2.8.2
 
-# ── Utilities ──────────────────────────────────────────────────────────────────
-numpy==2.4.4
-tqdm==4.67.3
-tenacity==9.1.4
-filelock==3.29.0
-fsspec==2026.4.0
-packaging==26.2
-typing_extensions==4.15.0
-annotated-types==0.7.0
-python-dateutil==2.9.0.post0
-six==1.17.0
-
-# ── gRPC (chromadb / google dependencies) ─────────────────────────────────────
-grpcio==1.80.0
-grpcio-status==1.71.2
-
-# ── OpenTelemetry (chromadb ships with these) ─────────────────────────────────
-opentelemetry-api==1.41.1
-opentelemetry-sdk==1.41.1
-opentelemetry-semantic-conventions==0.62b1
-opentelemetry-exporter-otlp-proto-common==1.41.1
-opentelemetry-exporter-otlp-proto-grpc==1.41.1
-opentelemetry-proto==1.41.1
-
-# ── Misc chromadb / google deps ───────────────────────────────────────────────
-mmh3==5.2.1
-PyPika==0.51.1
-overrides==7.7.0
-flatbuffers==25.12.19
-Deprecated==1.3.1
-wrapt==2.1.2
-rpds-py==0.30.0
-referencing==0.37.0
-jsonschema==4.26.0
-jsonschema-specifications==2025.9.1
-
-# ── CLI / display (used by chromadb/typer) ────────────────────────────────────
-rich==15.0.0
-typer==0.25.1
-click==8.3.3
-Pygments==2.20.0
-markdown-it-py==4.0.0
-mdurl==0.1.2
-colorama==0.4.6
-shellingham==1.5.4
-
-# ── Crypto / auth ─────────────────────────────────────────────────────────────
-cryptography==47.0.0
-bcrypt==5.0.0
-cffi==2.0.0
-pyasn1==0.6.3
-pyasn1_modules==0.4.2
-oauthlib==3.3.1
-requests-oauthlib==2.0.0
-
-# ── Misc ──────────────────────────────────────────────────────────────────────
-distro==1.9.0
-durationpy==0.10
-importlib_metadata==8.7.1
-importlib_resources==7.1.0
-jiter==0.14.0
-pycparser==3.0
-greenlet==3.5.0
-uritemplate==4.2.0
-zipp==3.23.1
-pybase64==1.4.3
-watchfiles==1.1.1
+# Web scraping (crawler.py)
+beautifulsoup4==4.12.3
+lxml==5.3.0
