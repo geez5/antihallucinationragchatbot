@@ -19,7 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, field_validator
 import chromadb
-import google.generativeai as genai
+import google.genai as genai
 from groq import Groq
 import requests
 from dotenv import load_dotenv
