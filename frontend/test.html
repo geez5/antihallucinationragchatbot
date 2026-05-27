@@ -1,43 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veritas Widget Test Page</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 40px;
-            background-color: #f3f4f6;
-            color: #111827;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        h1 {
-            margin-top: 0;
-            font-size: 2rem;
-        }
-        p {
-            line-height: 1.6;
-            color: #4b5563;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veritas Widget — Local Test Page</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #111827;
+      --blue:   #2563eb;
+      --green:  #10b981;
+      --gray50: #f9fafb;
+      --gray100:#f3f4f6;
+      --gray300:#d1d5db;
+      --gray500:#6b7280;
+      --gray700:#374151;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--gray50);
+      color: var(--navy);
+      min-height: 100vh;
+    }
+
+    /* ── Nav ──────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray100);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-logo span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--navy);
+      color: white;
+      border-radius: 7px;
+      font-size: 14px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--gray500);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta {
+      background: var(--navy);
+      color: white !important;
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 13px !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: #1f2937 !important; color: white !important; }
+
+    /* ── Hero ─────────────────────────────────────────────────── */
+    .hero {
+      padding: 80px 40px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hero-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--gray500);
+      max-width: 580px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--navy);
+      color: white;
+      padding: 13px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(17,24,39,0.2);
+    }
+    .btn-primary:hover {
+      background: #1f2937;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(17,24,39,0.25);
+    }
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      padding: 13px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      border: 1.5px solid var(--gray300);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--navy);
+      background: var(--gray50);
+    }
+
+    /* ── Feature strip ────────────────────────────────────────── */
+    .features {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: white;
+      border: 1px solid var(--gray100);
+      border-radius: 14px;
+      padding: 24px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      box-shadow: 0 8px 24px rgba(17,24,39,0.08);
+      transform: translateY(-2px);
+    }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .feature-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: var(--navy);
+    }
+    .feature-desc {
+      font-size: 13px;
+      color: var(--gray500);
+      line-height: 1.6;
+    }
+
+    /* ── Layers section ───────────────────────────────────────── */
+    .layers-section {
+      background: var(--navy);
+      padding: 60px 40px;
+      color: white;
+    }
+    .layers-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+    .layers-section .section-label { color: #4b5563; }
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 36px;
+    }
+    .layers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .layer-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: background 0.2s;
+    }
+    .layer-chip:hover { background: rgba(255,255,255,0.08); }
+    .layer-num {
+      background: rgba(37,99,235,0.25);
+      color: #93c5fd;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .layer-text {
+      font-size: 12.5px;
+      color: #d1d5db;
+      line-height: 1.5;
+    }
+
+    /* ── Test guide ───────────────────────────────────────────── */
+    .test-section {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 40px;
+    }
+    .test-card {
+      background: white;
+      border: 1px solid var(--gray100);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .test-item {
+      background: var(--gray50);
+      border: 1px solid var(--gray100);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .test-item-num {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      background: var(--navy);
+      color: white;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 22px;
+      margin-bottom: 8px;
+    }
+    .test-item-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .test-item-desc {
+      font-size: 12px;
+      color: var(--gray500);
+      line-height: 1.5;
+    }
+    code {
+      background: var(--gray100);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      color: var(--navy);
+    }
+
+    /* ── Status bar ───────────────────────────────────────────── */
+    .status-bar {
+      max-width: 900px;
+      margin: 0 auto 24px;
+      padding: 0 40px;
+    }
+    .status-inner {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #166534;
+    }
+    .status-dot-green {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 32px 40px;
+      font-size: 13px;
+      color: var(--gray500);
+      border-top: 1px solid var(--gray100);
+    }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 48px 20px 40px; }
+      h1 { font-size: 32px; }
+      .features, .test-section, .status-bar { padding-left: 20px; padding-right: 20px; }
+      .layers-section { padding: 40px 20px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Your Business</h1>
-        <p>This is a test page to verify the functionality of the Veritas chat widget.</p>
-        <p>The widget script is included at the bottom of the body. You should see a floating bubble in the bottom right corner of your screen. Click it to open the chat interface.</p>
-    </div>
 
-    <!-- Include the Veritas Chat Widget -->
-    <script src="chatbot.js"></script>
+  <!-- ── Navigation ─────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-logo">
+      <span>✦</span> Veritas AI
+    </div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#layers">How It Works</a></li>
+      <li><a href="#test">Test Guide</a></li>
+      <li><a href="#" class="nav-cta">Get Started</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ───────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-badge">Widget Test Environment</div>
+    <h1>Meet <em>Veritas</em> —<br/>the anti-hallucination chatbot</h1>
+    <p class="hero-sub">
+      A RAG-powered chat widget that only answers from <em>your</em> website content.
+      10 layers of hallucination prevention. Zero made-up answers.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('vrt-bubble').click()">
+        💬 Open Chat Widget
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('test').scrollIntoView({behavior:'smooth'})">
+        📋 Test Guide
+      </button>
+    </div>
+  </section>
+
+  <!-- ── Status bar ──────────────────────────────────────────────── -->
+  <div class="status-bar">
+    <div class="status-inner">
+      <div class="status-dot-green"></div>
+      <strong>Backend target:</strong>&nbsp;
+      <code>http://localhost:8000</code>
+      &nbsp;— Make sure <code>uvicorn main:app --reload</code> is running
+      in the <code>backend/</code> folder before testing.
+    </div>
+  </div>
+
+  <!-- ── Features ───────────────────────────────────────────────── -->
+  <section class="features" id="features">
+    <div class="feature-card">
+      <div class="feature-icon">🧠</div>
+      <div class="feature-title">RAG-Powered</div>
+      <div class="feature-desc">Retrieves relevant chunks from your website before answering. No guessing.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">10 Anti-Hallucination Layers</div>
+      <div class="feature-desc">Intent filter, reranker, similarity threshold, guardrail self-check and more.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">Source Citations</div>
+      <div class="feature-desc">Every answer links back to the exact page on your site it came from.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">Chat History</div>
+      <div class="feature-desc">Remembers context across turns so follow-up questions work naturally.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👍</div>
+      <div class="feature-title">Feedback Loop</div>
+      <div class="feature-desc">Thumbs up/down on every reply. Data posted to backend for future tuning.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">Mobile Ready</div>
+      <div class="feature-desc">Fully responsive. Works on any screen, any device, any website.</div>
+    </div>
+  </section>
+
+  <!-- ── 10-layer section ────────────────────────────────────────── -->
+  <section class="layers-section" id="layers">
+    <div class="layers-inner">
+      <div class="section-label">How hallucinations are prevented</div>
+      <h2 class="section-title">10 layers working together</h2>
+      <div class="layers-grid">
+        <div class="layer-chip">
+          <span class="layer-num">L1</span>
+          <span class="layer-text">Intent classifier blocks off-topic questions</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L2</span>
+          <span class="layer-text">ChromaDB vector retrieval — top 10 candidates</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L3</span>
+          <span class="layer-text">Cosine similarity threshold ≥ 0.70</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L4</span>
+          <span class="layer-text">Jina AI reranker picks best 3 chunks</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L5</span>
+          <span class="layer-text">temperature=0 — no LLM randomness</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L6</span>
+          <span class="layer-text">Strict system prompt — context only</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L7</span>
+          <span class="layer-text">Token cap — max 512 output tokens</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L8</span>
+          <span class="layer-text">Guardrail self-check — second LLM verifies</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L9</span>
+          <span class="layer-text">Source citation on every response</span>
+        </div>
+        <div class="layer-chip">
+          <span class="layer-num">L10</span>
+          <span class="layer-text">Freshness — nightly recrawl of website</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Test guide ──────────────────────────────────────────────── -->
+  <section class="test-section" id="test">
+    <div class="test-card">
+      <div class="section-label">Local testing</div>
+      <h2 class="section-title" style="font-size:22px;margin-bottom:0">
+        What to test in the widget
+      </h2>
+      <div class="test-grid">
+        <div class="test-item">
+          <div class="test-item-num">1</div>
+          <div class="test-item-label">Starter questions</div>
+          <div class="test-item-desc">Click any of the 3 chips on open. Should send a real question.</div>
+        </div>
+        <div class="test-item">
+          <div class="test-item-num">2</div>
+          <div class="test-item-label">On-topic answer</div>
+          <div class="test-item-desc">Ask <code>What services do you offer?</code> — expect a real answer + source link.</div>
+        </div>
+        <div class="test-item">
+          <div class="test-item-num">3</div>
+          <div class="test-item-label">Off-topic block</div>
+          <div class="test-item-desc">Ask <code>Who won the World Cup?</code> — should be blocked by L1.</div>
+        </div>
+        <div class="test-item">
+          <div class="test-item-num">4</div>
+          <div class="test-item-label">Feedback buttons</div>
+          <div class="test-item-desc">Click 👍 or 👎 — buttons should swap to a thank-you message.</div>
+        </div>
+        <div class="test-item">
+          <div class="test-item-num">5</div>
+          <div class="test-item-label">Follow-up question</div>
+          <div class="test-item-desc">Ask a follow-up like <code>Tell me more</code> — history is sent.</div>
+        </div>
+        <div class="test-item">
+          <div class="test-item-num">6</div>
+          <div class="test-item-label">Rate limit</div>
+          <div class="test-item-desc">Send 20+ rapid messages — widget shows a polite wait message.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────────── -->
+  <footer>
+    Veritas AI Widget · Test Environment ·
+    Backend: <code>http://localhost:8000</code>
+  </footer>
+
+  <!-- ✅ The one line needed to embed the widget on any page -->
+  <script src="chatbot.js"></script>
+
 </body>
 </html>
