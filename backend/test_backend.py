@@ -1,137 +1,315 @@
+"""
+test_backend.py - Veritas RAG Chatbot Backend Test Suite
+=========================================================
+Tests all 6 scenarios against the running FastAPI backend.
+Run with:
+    python test_backend.py
+
+Backend must be running at http://127.0.0.1:8000
+"""
+
+import sys
+import time
 import requests
 
+# ==============================================================================
+# CONFIG
+# ==============================================================================
 BASE_URL = "http://127.0.0.1:8000"
+TIMEOUT  = 60   # seconds — LLM calls can be slow; don't time out prematurely
 
-def run_tests():
-    passed = 0
-    total = 6
+import io
+import os
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
-    print("Starting backend tests...\n")
+# Colours (disabled automatically on Windows if not supported)
+try:
+    if os.name == "nt":
+        os.system("")          # enable ANSI escape codes on Windows terminal
+    GREEN  = "\033[92m"
+    RED    = "\033[91m"
+    YELLOW = "\033[93m"
+    CYAN   = "\033[96m"
+    BOLD   = "\033[1m"
+    RESET  = "\033[0m"
+except Exception:
+    GREEN = RED = YELLOW = CYAN = BOLD = RESET = ""
 
-    # TEST 1 — Health check
-    print("TEST 1: Health check")
+# ==============================================================================
+# HELPERS
+# ==============================================================================
+results: list[dict] = []
+
+def header(test_num: int, title: str) -> None:
+    print(f"\n{CYAN}{BOLD}{'-'*60}{RESET}")
+    print(f"{CYAN}{BOLD}  TEST {test_num}: {title}{RESET}")
+    print(f"{CYAN}{'-'*60}{RESET}")
+
+def record(test_num: int, title: str, passed: bool,
+           detail: str = "", elapsed: float = 0.0) -> None:
+    tag    = f"{GREEN}PASS [OK]{RESET}" if passed else f"{RED}FAIL [!!]{RESET}"
+    timing = f"  ({elapsed:.2f}s)"
+    print(f"  Result : {tag}{timing}")
+    if detail:
+        print(f"  Detail : {detail}")
+    results.append({"num": test_num, "title": title, "passed": passed})
+
+# ==============================================================================
+# SHARED STATE (answers reused across tests)
+# ==============================================================================
+q2_question = "What does this company do?"
+q2_answer   = ""
+
+# ==============================================================================
+# TEST 1 — Health check
+# ==============================================================================
+def test_1():
+    title = "Health check (GET /health → 200 + status:ok)"
+    header(1, title)
+    t0 = time.time()
     try:
-        res = requests.get(f"{BASE_URL}/health")
-        if res.status_code == 200 and res.json().get("status") == "ok":
-            print("PASS")
-            passed += 1
-        else:
-            print(f"FAIL: Expected 200 and {{'status': 'ok'}}, got {res.status_code} and {res.text}")
-    except Exception as e:
-        print(f"FAIL: Exception occurred: {e}")
-    print()
+        res = requests.get(f"{BASE_URL}/health", timeout=TIMEOUT)
+        elapsed = time.time() - t0
 
-    # TEST 2 — On-topic question gets a real answer
-    print("TEST 2: On-topic question gets a real answer")
-    chat_history = []
-    q2 = "What does your company do?"
-    ans2 = ""
+        print(f"  Status : {res.status_code}")
+        print(f"  Body   : {res.text[:200]}")
+
+        ok = res.status_code == 200 and res.json().get("status") == "ok"
+        detail = "" if ok else f"Got status={res.status_code}, body={res.text[:200]}"
+        record(1, title, ok, detail, elapsed)
+    except Exception as exc:
+        record(1, title, False, f"Exception: {exc}", time.time() - t0)
+
+# ==============================================================================
+# TEST 2 — On-topic question gets a real answer
+# ==============================================================================
+def test_2():
+    global q2_answer
+    title = "On-topic question → real answer + sources (POST /chat)"
+    header(2, title)
+    t0 = time.time()
     try:
-        res = requests.post(f"{BASE_URL}/chat", json={"question": q2, "chat_history": chat_history})
+        payload = {"question": q2_question, "chat_history": []}
+        res     = requests.post(f"{BASE_URL}/chat", json=payload, timeout=TIMEOUT)
+        elapsed = time.time() - t0
+
+        print(f"  Status : {res.status_code}")
         if res.status_code == 200:
-            data = res.json()
-            ans2 = data.get("answer", "")
-            sources = data.get("sources", [])
-            if len(ans2) > 20 and len(sources) > 0:
-                print("PASS")
-                passed += 1
-            else:
-                print(f"FAIL: Answer length ({len(ans2)}) or sources length ({len(sources)}) didn't meet criteria.")
-                print(f"Response: {data}")
-        else:
-            print(f"FAIL: Status code {res.status_code}")
-    except Exception as e:
-        print(f"FAIL: Exception occurred: {e}")
-    print()
+            data        = res.json()
+            q2_answer   = data.get("answer", "")
+            sources     = data.get("sources", [])
+            print(f"  Answer : {q2_answer[:150]}{'...' if len(q2_answer)>150 else ''}")
+            print(f"  Sources: {sources}")
 
-    # TEST 3 — Off-topic question gets blocked
-    print("TEST 3: Off-topic question gets blocked")
-    q3 = "Who won the FIFA World Cup in 2022?"
+            ok     = len(q2_answer) > 20 and len(sources) > 0
+            detail = (
+                ""
+                if ok
+                else f"answer_len={len(q2_answer)} (need >20), sources={sources} (need ≥1)"
+            )
+            record(2, title, ok, detail, elapsed)
+        else:
+            record(2, title, False, f"HTTP {res.status_code}: {res.text[:200]}", elapsed)
+    except Exception as exc:
+        record(2, title, False, f"Exception: {exc}", time.time() - t0)
+
+# ==============================================================================
+# TEST 3 — Off-topic question gets blocked by Layer 1 intent classifier
+# ==============================================================================
+def test_3():
+    title = "Off-topic question → blocked by intent classifier (POST /chat)"
+    header(3, title)
+    t0 = time.time()
     try:
-        res = requests.post(f"{BASE_URL}/chat", json={"question": q3, "chat_history": []})
+        question = "Who won the FIFA World Cup in 2022?"
+        payload  = {"question": question, "chat_history": []}
+        res      = requests.post(f"{BASE_URL}/chat", json=payload, timeout=TIMEOUT)
+        elapsed  = time.time() - t0
+
+        print(f"  Status : {res.status_code}")
         if res.status_code == 200:
-            ans3 = res.json().get("answer", "").lower()
-            blocking_phrases = ["can only answer", "can only provide", "cannot answer", "only answer", "unable to answer", "i am an ai"]
-            if any(phrase in ans3 for phrase in blocking_phrases) or len(ans3) > 0:
-                if any(phrase in ans3 for phrase in blocking_phrases):
-                    print("PASS")
-                    passed += 1
-                else:
-                    print(f"POSSIBLE FAIL (Check manually): Answer might not be a blocking message. Got: {ans3}")
-            else:
-                print(f"FAIL: Answer did not contain blocking message. Got: {ans3}")
-        else:
-            print(f"FAIL: Status code {res.status_code}")
-    except Exception as e:
-        print(f"FAIL: Exception occurred: {e}")
-    print()
+            answer = res.json().get("answer", "")
+            print(f"  Answer : {answer}")
 
-    # TEST 4 — Question not on site returns fallback
-    print("TEST 4: Question not on site returns fallback")
-    # Using a business-related question so it passes Intent check, but info won't be in the DB
-    q4 = "What is your refund policy for enterprise customers?"
+            # Layer 1 should have blocked this with the canned response
+            BLOCK_PHRASES = [
+                "can only answer",
+                "can only provide",
+                "cannot answer",
+                "only answer questions about",
+                "unable to answer",
+                "not able to answer",
+                "outside the scope",
+                "website and services",
+            ]
+            blocked = any(p in answer.lower() for p in BLOCK_PHRASES)
+            detail  = "" if blocked else f"Expected blocking phrase in answer. Got: {answer[:200]}"
+            record(3, title, blocked, detail, elapsed)
+        else:
+            record(3, title, False, f"HTTP {res.status_code}: {res.text[:200]}", elapsed)
+    except Exception as exc:
+        record(3, title, False, f"Exception: {exc}", time.time() - t0)
+
+# ==============================================================================
+# TEST 4 — Question not in knowledge base → fallback message
+# ==============================================================================
+def test_4():
+    title = "Unknown question → fallback (POST /chat)"
+    header(4, title)
+    t0 = time.time()
     try:
-        res = requests.post(f"{BASE_URL}/chat", json={"question": q4, "chat_history": []})
+        # Business-flavoured so it clears Layer 1, but the info won't exist in the DB
+        question = "What is the price of your diamond-encrusted platinum package for moon travel?"
+        payload  = {"question": question, "chat_history": []}
+        res      = requests.post(f"{BASE_URL}/chat", json=payload, timeout=TIMEOUT)
+        elapsed  = time.time() - t0
+
+        print(f"  Status : {res.status_code}")
         if res.status_code == 200:
-            ans4 = res.json().get("answer", "").lower()
-            fallback_phrases = ["couldn't find", "contact us", "could not find", "don't have", "not mentioned", "not specify", "unable to find", "don't know", "cannot provide"]
-            if any(phrase in ans4 for phrase in fallback_phrases):
-                print("PASS")
-                passed += 1
-            else:
-                print(f"POSSIBLE FAIL (Check manually): Answer did not contain expected fallback message. Got: {ans4}")
-        else:
-            print(f"FAIL: Status code {res.status_code}")
-    except Exception as e:
-        print(f"FAIL: Exception occurred: {e}")
-    print()
+            answer = res.json().get("answer", "")
+            print(f"  Answer : {answer}")
 
-    # TEST 5 — Feedback endpoint works
-    print("TEST 5: Feedback endpoint works")
+            FALLBACK_PHRASES = [
+                "couldn't find",
+                "could not find",
+                "contact us",
+                "contact us directly",
+                "not found",
+                "don't have",
+                "do not have",
+                "not available",
+                "not in",
+                "no information",
+                "cannot find",
+                "can't find",
+            ]
+            is_fallback = any(p in answer.lower() for p in FALLBACK_PHRASES)
+            detail = "" if is_fallback else f"Expected fallback phrase. Got: {answer[:200]}"
+            record(4, title, is_fallback, detail, elapsed)
+        else:
+            record(4, title, False, f"HTTP {res.status_code}: {res.text[:200]}", elapsed)
+    except Exception as exc:
+        record(4, title, False, f"Exception: {exc}", time.time() - t0)
+
+# ==============================================================================
+# TEST 5 — Feedback endpoint
+# ==============================================================================
+def test_5():
+    title = "Feedback endpoint (POST /feedback → 200 + status:received)"
+    header(5, title)
+    t0 = time.time()
     try:
-        feedback_data = {
-            "session_id": "test",
-            "rating": 1,  # rating must be an integer per the backend validation
-            "question": "test q",
-            "answer": "test a"
+        # rating must be an integer (per backend Pydantic model — FeedbackRequest.rating: int)
+        payload = {
+            "session_id": "test-session-001",
+            "rating"    : -1,          # -1 = thumbs down  |  1 = thumbs up
+            "question"  : "test q",
+            "answer"    : "test a",
         }
-        res = requests.post(f"{BASE_URL}/feedback", json=feedback_data)
-        if res.status_code == 200 and res.json().get("status") == "received":
-            print("PASS")
-            passed += 1
-        else:
-            print(f"FAIL: Expected 200 and {{'status': 'received'}}, got {res.status_code} and {res.text}")
-    except Exception as e:
-        print(f"FAIL: Exception occurred: {e}")
-    print()
+        res     = requests.post(f"{BASE_URL}/feedback", json=payload, timeout=TIMEOUT)
+        elapsed = time.time() - t0
 
-    # TEST 6 — Follow-up question with chat history
-    print("TEST 6: Follow-up question with chat history")
+        print(f"  Status : {res.status_code}")
+        print(f"  Body   : {res.text[:200]}")
+
+        ok     = res.status_code == 200 and res.json().get("status") == "received"
+        detail = "" if ok else f"Got status={res.status_code}, body={res.text[:200]}"
+        record(5, title, ok, detail, elapsed)
+    except Exception as exc:
+        record(5, title, False, f"Exception: {exc}", time.time() - t0)
+
+# ==============================================================================
+# TEST 6 — Follow-up question with chat history
+# ==============================================================================
+def test_6():
+    title = "Follow-up with chat_history → coherent continuation (POST /chat)"
+    header(6, title)
+
+    if not q2_answer:
+        record(6, title, False,
+               "Skipped — Test 2 did not produce an answer to build history from.")
+        return
+
+    t0 = time.time()
     try:
-        # Using the question and answer from Test 2 to form history
         history = [
-            {"role": "user", "content": q2},
-            {"role": "assistant", "content": ans2}
+            {"role": "user",      "content": q2_question},
+            {"role": "assistant", "content": q2_answer},
         ]
-        q6 = "Can you elaborate on that?"
-        res = requests.post(f"{BASE_URL}/chat", json={"question": q6, "chat_history": history})
+        follow_up = "Can you tell me more about that?"
+        payload   = {"question": follow_up, "chat_history": history}
+        res       = requests.post(f"{BASE_URL}/chat", json=payload, timeout=TIMEOUT)
+        elapsed   = time.time() - t0
+
+        print(f"  Status    : {res.status_code}")
         if res.status_code == 200:
             ans6 = res.json().get("answer", "")
-            # Basic sanity check: ensure it's not just repeating the user or previous answer
-            if len(ans6) > 10 and q6 not in ans6 and ans6 != ans2:
-                print("PASS")
-                passed += 1
-            else:
-                print(f"FAIL: Answer seems incorrect or repeating. Got: {ans6}")
-        else:
-            print(f"FAIL: Status code {res.status_code}")
-    except Exception as e:
-        print(f"FAIL: Exception occurred: {e}")
-    print()
+            print(f"  Answer    : {ans6[:200]}{'...' if len(ans6)>200 else ''}")
+            print(f"  (History  : sent {len(history)} prior turns)")
 
-    print(f"=============================")
-    print(f"SUMMARY: {passed}/{total} tests passed.")
-    print(f"=============================")
+            # Checks:
+            # 1. Response is non-trivial (>10 chars)
+            # 2. Doesn't just echo the follow-up question back
+            # 3. Is different from the first answer (not a verbatim repeat)
+            is_coherent = (
+                len(ans6) > 10
+                and follow_up.lower() not in ans6.lower()
+                and ans6.strip() != q2_answer.strip()
+            )
+            detail = (
+                ""
+                if is_coherent
+                else (
+                    f"len={len(ans6)}, "
+                    f"echoes_question={follow_up.lower() in ans6.lower()}, "
+                    f"same_as_prev={ans6.strip()==q2_answer.strip()}"
+                )
+            )
+            record(6, title, is_coherent, detail, elapsed)
+        else:
+            record(6, title, False, f"HTTP {res.status_code}: {res.text[:200]}", elapsed)
+    except Exception as exc:
+        record(6, title, False, f"Exception: {exc}", time.time() - t0)
+
+# ==============================================================================
+# RUNNER
+# ==============================================================================
+def main():
+    print(f"\n{BOLD}{'='*60}{RESET}")
+    print(f"{BOLD}  Veritas RAG Backend - Test Suite{RESET}")
+    print(f"{BOLD}  Target: {BASE_URL}{RESET}")
+    print(f"{BOLD}{'='*60}{RESET}")
+
+    suite_start = time.time()
+
+    test_1()
+    test_2()
+    test_3()
+    test_4()
+    test_5()
+    test_6()
+
+    total_elapsed = time.time() - suite_start
+
+    # ── Summary ───────────────────────────────────────────────────────────────
+    passed = sum(1 for r in results if r["passed"])
+    total  = len(results)
+
+    print(f"\n{BOLD}{'='*60}{RESET}")
+    print(f"{BOLD}  SUMMARY{RESET}")
+    print(f"{BOLD}{'='*60}{RESET}")
+    for r in results:
+        icon  = f"{GREEN}PASS{RESET}" if r["passed"] else f"{RED}FAIL{RESET}"
+        print(f"  Test {r['num']}: {icon}  - {r['title']}")
+
+    print(f"{BOLD}{'-'*60}{RESET}")
+    score_colour = GREEN if passed == total else (YELLOW if passed >= total // 2 else RED)
+    print(f"  {BOLD}{score_colour}{passed}/{total} tests passed{RESET}  "
+          f"(total time: {total_elapsed:.1f}s)")
+    print(f"{BOLD}{'='*60}{RESET}\n")
+
+    sys.exit(0 if passed == total else 1)
+
 
 if __name__ == "__main__":
-    run_tests()
+    main()

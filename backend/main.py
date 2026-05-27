@@ -3,7 +3,7 @@ main.py — RAG Chatbot Backend
 ==============================
 10-layer anti-hallucination FastAPI backend.
 Powered by Groq (qwen-qwq-32b + llama-3.1-8b-instant),
-Google Gemini (text-embedding-004), ChromaDB, and CrossEncoder.
+Google Gemini (text-embedding-004), ChromaDB, and Jina AI Reranker.
 
 Run with:
     uvicorn main:app --reload
@@ -19,9 +19,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, field_validator
 import chromadb
-from google import genai
+import google.generativeai as genai
 from groq import Groq
-from sentence_transformers import CrossEncoder
+import requests
 from dotenv import load_dotenv
 
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -45,6 +45,7 @@ load_dotenv()
 
 GROQ_API_KEY   = os.getenv("GROQ_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+JINA_API_KEY   = os.getenv("JINA_API_KEY", "")
 RECRAWL_SECRET = os.getenv("RECRAWL_SECRET", "change-me-in-env")
 
 if not GROQ_API_KEY:
@@ -68,10 +69,6 @@ collection    = chroma_client.get_or_create_collection(
     metadata={"hnsw:space": "cosine"},
 )
 logger.info("ChromaDB ready — 'veritas' has %d vectors.", collection.count())
-
-# CrossEncoder reranker — Layer 4
-cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-logger.info("CrossEncoder loaded.")
 
 # Constants
 FALLBACK      = "I couldn't find that information on our website. Please contact us directly for help."
@@ -293,7 +290,7 @@ def chat(request: Request, body: ChatRequest):
     Layer 1  — Intent classifier        (llama-3.1-8b-instant)
     Layer 2  — ChromaDB retrieval       (Gemini embeddings, n=10)
     Layer 3  — Similarity filter        (≥ 0.70)
-    Layer 4  — CrossEncoder reranking   (top 3)
+    Layer 4  — Jina AI reranking        (top 3)
     Layer 5  — temperature=0            (all Groq calls)
     Layer 6  — Strict system prompt     (context-only, no own knowledge)
     Layer 7  — Token cap                (max_tokens=512)
@@ -344,11 +341,43 @@ def chat(request: Request, body: ChatRequest):
         logger.info("[L3] No chunks above similarity threshold %.2f.", SIM_THRESHOLD)
         return ChatResponse(answer=FALLBACK, sources=[], source_titles=[])
 
-    # ── Layer 4: CrossEncoder Reranking ───────────────────────────────────────
-    pairs   = [[question, doc] for doc, _ in passed]
-    scores  = cross_encoder.predict(pairs)
-    ranked  = sorted(zip(scores, passed), key=lambda x: x[0], reverse=True)
-    top3    = ranked[:3]
+    # ── Layer 4: Jina AI Reranking ───────────────────────────────────────────────
+    if JINA_API_KEY:
+        try:
+            # Prepare documents for reranking
+            docs_list = [doc for doc, _ in passed]
+            
+            # Call Jina Reranker API
+            headers = {
+                "Authorization": f"Bearer {JINA_API_KEY}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": "jina-reranker-v2-base-multilingual",
+                "query": question,
+                "documents": docs_list,
+                "top_k": 3
+            }
+            response = requests.post(
+                "https://api.jina.ai/v1/rerank",
+                json=payload,
+                headers=headers,
+                timeout=10
+            )
+            response.raise_for_status()
+            
+            rerank_data = response.json()
+            top_indices = [result["index"] for result in rerank_data.get("results", [])]
+            top3 = [passed[i] for i in top_indices[:3]]
+            
+        except Exception as rerank_error:
+            logger.warning("[L4] Jina reranking failed (%s), using top 3 by similarity", rerank_error)
+            ranked = sorted(enumerate(passed), key=lambda x: 1.0 - distances[passed.index(x[1])], reverse=True)
+            top3 = [doc for _, doc in ranked[:3]]
+    else:
+        # Fallback: use top 3 by similarity score
+        ranked = sorted(enumerate(passed), key=lambda x: 1.0 - distances[passed.index(x[1])], reverse=True)
+        top3 = [doc for _, doc in ranked[:3]]
 
     context = "\n\n---\n\n".join(doc for _, (doc, _) in top3)
     logger.info("[L4] Top %d chunks selected after reranking.", len(top3))
