@@ -346,6 +346,7 @@ def chat(request: Request, body: ChatRequest):
         try:
             # Prepare documents for reranking
             docs_list = [doc for doc, _ in passed]
+            logger.info("[L4-RERANK] Calling Jina with %d candidate chunks.", len(docs_list))
             
             # Call Jina Reranker API
             headers = {
@@ -367,7 +368,14 @@ def chat(request: Request, body: ChatRequest):
             response.raise_for_status()
             
             rerank_data = response.json()
-            top_indices = [result["index"] for result in rerank_data.get("results", [])]
+            rerank_results = rerank_data.get("results", [])
+            top_indices = [result["index"] for result in rerank_results]
+            top_scores = [round(float(result.get("relevance_score", 0.0)), 4) for result in rerank_results]
+            logger.info(
+                "[L4-RERANK] Jina success. indices=%s scores=%s",
+                top_indices[:3],
+                top_scores[:3],
+            )
             top3 = [passed[i] for i in top_indices[:3]]
             
         except Exception as rerank_error:
@@ -376,6 +384,7 @@ def chat(request: Request, body: ChatRequest):
             top3 = [doc for _, doc in ranked[:3]]
     else:
         # Fallback: use top 3 by similarity score
+        logger.info("[L4-RERANK] JINA_API_KEY not set. Using similarity fallback.")
         ranked = sorted(enumerate(passed), key=lambda x: 1.0 - distances[passed.index(x[1])], reverse=True)
         top3 = [doc for _, doc in ranked[:3]]
 
