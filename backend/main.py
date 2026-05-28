@@ -10,6 +10,7 @@ Run with:
 """
 
 import os
+import shutil
 import logging
 import subprocess
 from typing import List, Optional
@@ -63,7 +64,19 @@ gemini_client    = genai.Client(api_key=GEMINI_API_KEY)
 EMBEDDING_MODEL  = "models/text-embedding-004"
 
 # ChromaDB
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
+from chromadb.config import Settings
+
+DB_PATH = "./chroma_db"
+
+if os.path.exists(DB_PATH):
+    shutil.rmtree(DB_PATH)
+
+print("Old Chroma DB removed")
+
+chroma_client = chromadb.PersistentClient(
+    path=DB_PATH,
+    settings=Settings(anonymized_telemetry=False)
+)
 collection    = chroma_client.get_or_create_collection(
     name="veritas",
     metadata={"hnsw:space": "cosine"},
