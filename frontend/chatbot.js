@@ -12,7 +12,7 @@
   // ============================================================
   // CONFIG — change API_URL to your deployed backend when ready
   // ============================================================
-  const API_URL   = "http://localhost:8000";
+  const API_URL   = "https://antihallucinationragchatbot.onrender.com";
   const MAX_CHARS = 500;          // mirrors backend validation
   const HISTORY_TURNS = 8;       // how many prior turns to send
 
