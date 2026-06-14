@@ -78,10 +78,10 @@ chroma_client = chromadb.PersistentClient(
     settings=Settings(anonymized_telemetry=False)
 )
 collection    = chroma_client.get_or_create_collection(
-    name="veritas",
+    name="gis-rag",
     metadata={"hnsw:space": "cosine"},
 )
-logger.info("ChromaDB ready — 'veritas' has %d vectors.", collection.count())
+logger.info("ChromaDB ready — 'gis-rag' has %d vectors.", collection.count())
 
 # Constants
 FALLBACK      = "I couldn't find that information on our website. Please contact us directly for help."

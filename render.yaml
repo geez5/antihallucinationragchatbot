@@ -1,4 +1,4 @@
-# render.yaml — Veritas RAG Chatbot
+# render.yaml — GIS-RAG Chatbot
 # ====================================
 # Place this file at the ROOT of your GitHub repository.
 # Render auto-detects it and pre-fills all service settings.

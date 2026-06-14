@@ -1,5 +1,5 @@
 /**
- * chatbot.js — Veritas AI Chat Widget
+ * chatbot.js — GIS-RAG Chat Widget
  * =====================================
  * Zero-dependency, self-contained floating chat widget.
  * Drop one <script src="chatbot.js"></script> tag into any page.
@@ -475,14 +475,14 @@
   const HTML = `
     <!-- Chat window -->
     <div id="vrt-window" role="dialog" aria-modal="true"
-         aria-label="Veritas AI Chat" aria-hidden="true">
+         aria-label="GIS-RAG Chat" aria-hidden="true">
 
       <!-- Header -->
       <div id="vrt-header">
         <div id="vrt-header-left">
           <div id="vrt-avatar" aria-hidden="true">✦</div>
           <div id="vrt-header-info">
-            <div id="vrt-header-title">Veritas — Ask anything</div>
+            <div id="vrt-header-title">GIS-RAG — Ask anything</div>
             <div id="vrt-status">
               <div id="vrt-status-dot"></div>
               <span>Online · Answers from our website</span>
@@ -503,7 +503,7 @@
         <!-- Bot greeting -->
         <div class="vrt-row vrt-bot">
           <div class="vrt-bubble-text">
-            👋 Hi! I'm Veritas. Ask me anything about our services,
+            👋 Hi! I'm GIS-RAG. Ask me anything about our services,
             pricing, or how to get started — I only answer based on
             our website content.
           </div>
@@ -553,12 +553,12 @@
 
       <!-- Footer -->
       <div id="vrt-footer">
-        Powered by <a href="#" tabindex="-1">Veritas AI</a>
+        Powered by <a href="#" tabindex="-1">GIS-RAG</a>
       </div>
     </div>
 
     <!-- Floating bubble trigger -->
-    <button id="vrt-bubble" aria-label="Open Veritas chat" aria-expanded="false">
+    <button id="vrt-bubble" aria-label="Open GIS-RAG chat" aria-expanded="false">
       <!-- Chat icon -->
       <svg id="vrt-icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
@@ -745,7 +745,7 @@
         "⚠️ Sorry, I'm having trouble connecting. Please try again.",
         ""
       );
-      console.error("[Veritas] API error:", err);
+      console.error("[GIS-RAG] API error:", err);
     } finally {
       isWaiting = false;
       setInputDisabled(false);
@@ -864,7 +864,7 @@
         }),
       });
     } catch (err) {
-      console.warn("[Veritas] Feedback send failed:", err);
+      console.warn("[GIS-RAG] Feedback send failed:", err);
     }
   }
 
