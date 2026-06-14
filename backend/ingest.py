@@ -27,7 +27,7 @@ if not GEMINI_API_KEY:
 
 # New google-genai SDK client
 gemini_client = genai.Client(api_key=GEMINI_API_KEY)
-EMBEDDING_MODEL = "models/text-embedding-004"
+EMBEDDING_MODEL = "models/gemini-embedding-001"
 
 # ChromaDB — stored at ./chroma_db relative to this script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

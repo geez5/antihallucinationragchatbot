@@ -60,12 +60,12 @@ FAST_MODEL   = "llama-3.1-8b-instant" # Layer 1 & 8 — intent + guardrail
 
 # Gemini client (new google-genai SDK)
 gemini_client    = genai.Client(api_key=GEMINI_API_KEY)
-EMBEDDING_MODEL  = "models/text-embedding-004"
+EMBEDDING_MODEL  = "models/gemini-embedding-001"
 
 # ChromaDB
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection    = chroma_client.get_or_create_collection(
-    name="veritas",
+    name="veritas",  
     metadata={"hnsw:space": "cosine"},
 )
 logger.info("ChromaDB ready — 'veritas' has %d vectors.", collection.count())
