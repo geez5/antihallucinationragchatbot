@@ -1,5 +1,5 @@
 """
-test_backend.py - Veritas RAG Chatbot Backend Test Suite
+test_backend.py - GIS-RAG Chatbot Backend Test Suite
 =========================================================
 Tests all 6 scenarios against the running FastAPI backend.
 Run with:
@@ -276,7 +276,7 @@ def test_6():
 # ==============================================================================
 def main():
     print(f"\n{BOLD}{'='*60}{RESET}")
-    print(f"{BOLD}  Veritas RAG Backend - Test Suite{RESET}")
+    print(f"{BOLD}  GIS-RAG Backend - Test Suite{RESET}")
     print(f"{BOLD}  Target: {BASE_URL}{RESET}")
     print(f"{BOLD}{'='*60}{RESET}")
 

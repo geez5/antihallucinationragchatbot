@@ -1,8 +1,8 @@
 """
-ingest.py — Veritas RAG Chatbot Ingestion Pipeline
+ingest.py — GIS-RAG Chatbot Ingestion Pipeline
 ====================================================
 Reads pages.json, chunks each page's content, embeds with Gemini
-text-embedding-004, and stores in ChromaDB collection "veritas".
+text-embedding-004, and stores in ChromaDB collection "gis-rag".
 
 Run with:
     python ingest.py
@@ -35,12 +35,12 @@ CHROMA_PATH = os.path.join(BASE_DIR, "chroma_db")
 
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma_client.get_or_create_collection(
-    name="veritas",
+    name="gis-rag",
     metadata={"hnsw:space": "cosine"},
 )
 
 print(f"ChromaDB connected at: {CHROMA_PATH}")
-print(f"Collection 'veritas' currently has {collection.count()} vectors.\n")
+print(f"Collection 'gis-rag' currently has {collection.count()} vectors.\n")
 
 # ==============================================================================
 # CHUNKING

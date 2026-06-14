@@ -1,5 +1,5 @@
 # ==============================================================================
-# requirements.txt — Veritas RAG Chatbot Backend
+# requirements.txt — GIS-RAG Chatbot Backend
 # Minimal direct dependencies only — let pip resolve transitive deps on Linux.
 # ==============================================================================
 

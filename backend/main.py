@@ -10,6 +10,7 @@ Run with:
 """
 
 import os
+import shutil
 import logging
 import subprocess
 from typing import List, Optional
@@ -63,12 +64,24 @@ gemini_client    = genai.Client(api_key=GEMINI_API_KEY)
 EMBEDDING_MODEL  = "models/gemini-embedding-001"
 
 # ChromaDB
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
+from chromadb.config import Settings
+
+DB_PATH = "./chroma_db"
+
+if os.path.exists(DB_PATH):
+    shutil.rmtree(DB_PATH)
+
+print("Old Chroma DB removed")
+
+chroma_client = chromadb.PersistentClient(
+    path=DB_PATH,
+    settings=Settings(anonymized_telemetry=False)
+)
 collection    = chroma_client.get_or_create_collection(
-    name="veritas",  
+    name="gis-rag",
     metadata={"hnsw:space": "cosine"},
 )
-logger.info("ChromaDB ready — 'veritas' has %d vectors.", collection.count())
+logger.info("ChromaDB ready — 'gis-rag' has %d vectors.", collection.count())
 
 # Constants
 FALLBACK      = "I couldn't find that information on our website. Please contact us directly for help."
