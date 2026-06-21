@@ -1,32 +1,1026 @@
 [
   {
-    "url": "https://example.com/home",
-    "title": "Welcome to doitchatbot Chatbot",
-    "text": "doitchatbot is an advanced RAG (Retrieval-Augmented Generation) chatbot. It is built to accurately answer user questions using semantic search over a designated knowledge base. By converting web pages into chunks and calculating their vector embeddings via Google's Gemini models, doitchatbot ensures high accuracy and significantly reduces AI hallucinations.",
+    "url": "https://books.toscrape.com",
+    "title": "All products | Books to Scrape - Sandbox",
+    "text": "All products | Books to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nA Light in the ...\nÂ£51.77\nIn stock\nTipping the Velvet\nÂ£53.74\nIn stock\nSoumission\nÂ£50.10\nIn stock\nSharp Objects\nÂ£47.82\nIn stock\nSapiens: A Brief History ...\nÂ£54.23\nIn stock\nThe Requiem Red\nÂ£22.65\nIn stock\nThe Dirty Little Secrets ...\nÂ£33.34\nIn stock\nThe Coming Woman: A ...\nÂ£17.93\nIn stock\nThe Boys in the ...\nÂ£22.60\nIn stock\nThe Black Maria\nÂ£52.15\nIn stock\nStarving Hearts (Triangular Trade ...\nÂ£13.99\nIn stock\nShakespeare's Sonnets\nÂ£20.66\nIn stock\nSet Me Free\nÂ£17.46\nIn stock\nScott Pilgrim's Precious Little ...\nÂ£52.29\nIn stock\nRip it Up and ...\nÂ£35.02\nIn stock\nOur Band Could Be ...\nÂ£57.25\nIn stock\nOlio\nÂ£23.88\nIn stock\nMesaerion: The Best Science ...\nÂ£37.59\nIn stock\nLibertarianism for Beginners\nÂ£51.33\nIn stock\nIt's Only the Himalayas\nÂ£45.17\nIn stock\nPage 1 of 50\nnext",
     "headings": [
-      "Introduction",
-      "How doitchatbot Works"
+      "All products",
+      "A Light in the ...",
+      "Tipping the Velvet",
+      "Soumission",
+      "Sharp Objects",
+      "Sapiens: A Brief History ...",
+      "The Requiem Red",
+      "The Dirty Little Secrets ...",
+      "The Coming Woman: A ...",
+      "The Boys in the ...",
+      "The Black Maria",
+      "Starving Hearts (Triangular Trade ...",
+      "Shakespeare's Sonnets",
+      "Set Me Free",
+      "Scott Pilgrim's Precious Little ...",
+      "Rip it Up and ...",
+      "Our Band Could Be ...",
+      "Olio",
+      "Mesaerion: The Best Science ...",
+      "Libertarianism for Beginners",
+      "It's Only the Himalayas"
     ],
-    "crawled_at": "2026-05-04T12:00:00Z"
+    "crawled_at": "2026-06-21T15:33:06.234033+00:00"
   },
   {
-    "url": "https://example.com/architecture",
-    "title": "doitchatbot System Architecture",
-    "text": "The architecture of doitchatbot consists of a web crawler, a vector database, and an LLM integration layer. We use ChromaDB as our local persistent vector database. The ingestion pipeline chunks text into 400-word segments with an 80-word overlap, preventing loss of context. These chunks are stored securely along with their source URLs to provide citations.",
+    "url": "https://books.toscrape.com/index.html",
+    "title": "All products | Books to Scrape - Sandbox",
+    "text": "All products | Books to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nA Light in the ...\nÂ£51.77\nIn stock\nTipping the Velvet\nÂ£53.74\nIn stock\nSoumission\nÂ£50.10\nIn stock\nSharp Objects\nÂ£47.82\nIn stock\nSapiens: A Brief History ...\nÂ£54.23\nIn stock\nThe Requiem Red\nÂ£22.65\nIn stock\nThe Dirty Little Secrets ...\nÂ£33.34\nIn stock\nThe Coming Woman: A ...\nÂ£17.93\nIn stock\nThe Boys in the ...\nÂ£22.60\nIn stock\nThe Black Maria\nÂ£52.15\nIn stock\nStarving Hearts (Triangular Trade ...\nÂ£13.99\nIn stock\nShakespeare's Sonnets\nÂ£20.66\nIn stock\nSet Me Free\nÂ£17.46\nIn stock\nScott Pilgrim's Precious Little ...\nÂ£52.29\nIn stock\nRip it Up and ...\nÂ£35.02\nIn stock\nOur Band Could Be ...\nÂ£57.25\nIn stock\nOlio\nÂ£23.88\nIn stock\nMesaerion: The Best Science ...\nÂ£37.59\nIn stock\nLibertarianism for Beginners\nÂ£51.33\nIn stock\nIt's Only the Himalayas\nÂ£45.17\nIn stock\nPage 1 of 50\nnext",
     "headings": [
-      "Vector Database",
-      "Data Ingestion Pipeline"
+      "All products",
+      "A Light in the ...",
+      "Tipping the Velvet",
+      "Soumission",
+      "Sharp Objects",
+      "Sapiens: A Brief History ...",
+      "The Requiem Red",
+      "The Dirty Little Secrets ...",
+      "The Coming Woman: A ...",
+      "The Boys in the ...",
+      "The Black Maria",
+      "Starving Hearts (Triangular Trade ...",
+      "Shakespeare's Sonnets",
+      "Set Me Free",
+      "Scott Pilgrim's Precious Little ...",
+      "Rip it Up and ...",
+      "Our Band Could Be ...",
+      "Olio",
+      "Mesaerion: The Best Science ...",
+      "Libertarianism for Beginners",
+      "It's Only the Himalayas"
     ],
-    "crawled_at": "2026-05-04T12:05:00Z"
+    "crawled_at": "2026-06-21T15:33:07.413411+00:00"
   },
   {
-    "url": "https://example.com/about",
-    "title": "About Our Technology",
-    "text": "We rely on the models/text-embedding-004 endpoint from Google Generative AI to create dense representations of text. These embeddings capture the semantic meaning of sentences, enabling doitchatbot to retrieve the most relevant paragraphs when a user asks a question, even if the exact keywords do not match.",
+    "url": "https://books.toscrape.com/catalogue/category/books_1/index.html",
+    "title": "Books | \n     Books to Scrape - Sandbox",
+    "text": "Books |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nA Light in the ...\nÂ£51.77\nIn stock\nTipping the Velvet\nÂ£53.74\nIn stock\nSoumission\nÂ£50.10\nIn stock\nSharp Objects\nÂ£47.82\nIn stock\nSapiens: A Brief History ...\nÂ£54.23\nIn stock\nThe Requiem Red\nÂ£22.65\nIn stock\nThe Dirty Little Secrets ...\nÂ£33.34\nIn stock\nThe Coming Woman: A ...\nÂ£17.93\nIn stock\nThe Boys in the ...\nÂ£22.60\nIn stock\nThe Black Maria\nÂ£52.15\nIn stock\nStarving Hearts (Triangular Trade ...\nÂ£13.99\nIn stock\nShakespeare's Sonnets\nÂ£20.66\nIn stock\nSet Me Free\nÂ£17.46\nIn stock\nScott Pilgrim's Precious Little ...\nÂ£52.29\nIn stock\nRip it Up and ...\nÂ£35.02\nIn stock\nOur Band Could Be ...\nÂ£57.25\nIn stock\nOlio\nÂ£23.88\nIn stock\nMesaerion: The Best Science ...\nÂ£37.59\nIn stock\nLibertarianism for Beginners\nÂ£51.33\nIn stock\nIt's Only the Himalayas\nÂ£45.17\nIn stock\nPage 1 of 50\nnext",
     "headings": [
-      "Embeddings",
-      "Semantic Search"
+      "Books",
+      "A Light in the ...",
+      "Tipping the Velvet",
+      "Soumission",
+      "Sharp Objects",
+      "Sapiens: A Brief History ...",
+      "The Requiem Red",
+      "The Dirty Little Secrets ...",
+      "The Coming Woman: A ...",
+      "The Boys in the ...",
+      "The Black Maria",
+      "Starving Hearts (Triangular Trade ...",
+      "Shakespeare's Sonnets",
+      "Set Me Free",
+      "Scott Pilgrim's Precious Little ...",
+      "Rip it Up and ...",
+      "Our Band Could Be ...",
+      "Olio",
+      "Mesaerion: The Best Science ...",
+      "Libertarianism for Beginners",
+      "It's Only the Himalayas"
     ],
-    "crawled_at": "2026-05-04T12:10:00Z"
+    "crawled_at": "2026-06-21T15:33:08.566551+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/travel_2/index.html",
+    "title": "Travel | \n     Books to Scrape - Sandbox",
+    "text": "Travel |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nIt's Only the Himalayas\nÂ£45.17\nIn stock\nFull Moon over Noahâs ...\nÂ£49.43\nIn stock\nSee America: A Celebration ...\nÂ£48.87\nIn stock\nVagabonding: An Uncommon Guide ...\nÂ£36.94\nIn stock\nUnder the Tuscan Sun\nÂ£37.33\nIn stock\nA Summer In Europe\nÂ£44.34\nIn stock\nThe Great Railway Bazaar\nÂ£30.54\nIn stock\nA Year in Provence ...\nÂ£56.88\nIn stock\nThe Road to Little ...\nÂ£23.21\nIn stock\nNeither Here nor There: ...\nÂ£38.95\nIn stock\n1,000 Places to See ...\nÂ£26.08\nIn stock",
+    "headings": [
+      "Travel",
+      "It's Only the Himalayas",
+      "Full Moon over Noahâs ...",
+      "See America: A Celebration ...",
+      "Vagabonding: An Uncommon Guide ...",
+      "Under the Tuscan Sun",
+      "A Summer In Europe",
+      "The Great Railway Bazaar",
+      "A Year in Provence ...",
+      "The Road to Little ...",
+      "Neither Here nor There: ...",
+      "1,000 Places to See ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:10.000390+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html",
+    "title": "Mystery | \n     Books to Scrape - Sandbox",
+    "text": "Mystery |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nSharp Objects\nÂ£47.82\nIn stock\nIn a Dark, Dark ...\nÂ£19.63\nIn stock\nThe Past Never Ends\nÂ£56.50\nIn stock\nA Murder in Time\nÂ£16.64\nIn stock\nThe Murder of Roger ...\nÂ£44.10\nIn stock\nThe Last Mile (Amos ...\nÂ£54.21\nIn stock\nThat Darkness (Gardiner and ...\nÂ£13.92\nIn stock\nTastes Like Fear (DI ...\nÂ£10.69\nIn stock\nA Time of Torment ...\nÂ£48.35\nIn stock\nA Study in Scarlet ...\nÂ£16.73\nIn stock\nPoisonous (Max Revere Novels ...\nÂ£26.80\nIn stock\nMurder at the 42nd ...\nÂ£54.36\nIn stock\nMost Wanted\nÂ£35.28\nIn stock\nHide Away (Eve Duncan ...\nÂ£11.84\nIn stock\nBoar Island (Anna Pigeon ...\nÂ£59.48\nIn stock\nThe Widow\nÂ£27.26\nIn stock\nPlaying with Fire\nÂ£13.71\nIn stock\nWhat Happened on Beale ...\nÂ£25.37\nIn stock\nThe Bachelor Girl's Guide ...\nÂ£52.30\nIn stock\nDelivering the Truth (Quaker ...\nÂ£20.89\nIn stock\nPage 1 of 2\nnext",
+    "headings": [
+      "Mystery",
+      "Sharp Objects",
+      "In a Dark, Dark ...",
+      "The Past Never Ends",
+      "A Murder in Time",
+      "The Murder of Roger ...",
+      "The Last Mile (Amos ...",
+      "That Darkness (Gardiner and ...",
+      "Tastes Like Fear (DI ...",
+      "A Time of Torment ...",
+      "A Study in Scarlet ...",
+      "Poisonous (Max Revere Novels ...",
+      "Murder at the 42nd ...",
+      "Most Wanted",
+      "Hide Away (Eve Duncan ...",
+      "Boar Island (Anna Pigeon ...",
+      "The Widow",
+      "Playing with Fire",
+      "What Happened on Beale ...",
+      "The Bachelor Girl's Guide ...",
+      "Delivering the Truth (Quaker ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:11.354667+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html",
+    "title": "Historical Fiction | \n     Books to Scrape - Sandbox",
+    "text": "Historical Fiction |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nTipping the Velvet\nÂ£53.74\nIn stock\nForever and Forever: The ...\nÂ£29.69\nIn stock\nA Flight of Arrows ...\nÂ£55.53\nIn stock\nThe House by the ...\nÂ£36.95\nIn stock\nMrs. Houdini\nÂ£30.25\nIn stock\nThe Marriage of Opposites\nÂ£28.08\nIn stock\nGlory over Everything: Beyond ...\nÂ£45.84\nIn stock\nLove, Lies and Spies\nÂ£20.55\nIn stock\nA Paris Apartment\nÂ£39.01\nIn stock\nLilac Girls\nÂ£17.28\nIn stock\nThe Constant Princess (The ...\nÂ£16.62\nIn stock\nThe Invention of Wings\nÂ£37.34\nIn stock\nWorld Without End (The ...\nÂ£32.97\nIn stock\nThe Passion of Dolssa\nÂ£28.32\nIn stock\nGirl With a Pearl ...\nÂ£26.77\nIn stock\nVoyager (Outlander #3)\nÂ£21.07\nIn stock\nThe Red Tent\nÂ£35.66\nIn stock\nThe Last Painting of ...\nÂ£55.55\nIn stock\nThe Guernsey Literary and ...\nÂ£49.53\nIn stock\nGirl in the Blue ...\nÂ£46.83\nIn stock\nPage 1 of 2\nnext",
+    "headings": [
+      "Historical Fiction",
+      "Tipping the Velvet",
+      "Forever and Forever: The ...",
+      "A Flight of Arrows ...",
+      "The House by the ...",
+      "Mrs. Houdini",
+      "The Marriage of Opposites",
+      "Glory over Everything: Beyond ...",
+      "Love, Lies and Spies",
+      "A Paris Apartment",
+      "Lilac Girls",
+      "The Constant Princess (The ...",
+      "The Invention of Wings",
+      "World Without End (The ...",
+      "The Passion of Dolssa",
+      "Girl With a Pearl ...",
+      "Voyager (Outlander #3)",
+      "The Red Tent",
+      "The Last Painting of ...",
+      "The Guernsey Literary and ...",
+      "Girl in the Blue ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:12.694779+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html",
+    "title": "Sequential Art | \n     Books to Scrape - Sandbox",
+    "text": "Sequential Art |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nScott Pilgrim's Precious Little ...\nÂ£52.29\nIn stock\nTsubasa: WoRLD CHRoNiCLE 2 ...\nÂ£16.28\nIn stock\nThis One Summer\nÂ£19.49\nIn stock\nThe Nameless City (The ...\nÂ£38.16\nIn stock\nSaga, Volume 5 (Saga ...\nÂ£51.04\nIn stock\nRat Queens, Vol. 3: ...\nÂ£50.40\nIn stock\nPrincess Jellyfish 2-in-1 Omnibus, ...\nÂ£13.61\nIn stock\nPop Gun War, Volume ...\nÂ£18.97\nIn stock\nPatience\nÂ£10.16\nIn stock\nOutcast, Vol. 1: A ...\nÂ£15.44\nIn stock\norange: The Complete Collection ...\nÂ£48.41\nIn stock\nLumberjanes, Vol. 2: Friendship ...\nÂ£46.91\nIn stock\nLumberjanes, Vol. 1: Beware ...\nÂ£45.61\nIn stock\nLumberjanes Vol. 3: A ...\nÂ£19.92\nIn stock\nI Hate Fairyland, Vol. ...\nÂ£29.17\nIn stock\nI am a Hero ...\nÂ£54.63\nIn stock\nGiant Days, Vol. 2 ...\nÂ£22.11\nIn stock\nDanganronpa Volume 1\nÂ£51.99\nIn stock\nCodename Baboushka, Volume 1: ...\nÂ£36.72\nIn stock\nCamp Midnight\nÂ£17.08\nIn stock\nPage 1 of 4\nnext",
+    "headings": [
+      "Sequential Art",
+      "Scott Pilgrim's Precious Little ...",
+      "Tsubasa: WoRLD CHRoNiCLE 2 ...",
+      "This One Summer",
+      "The Nameless City (The ...",
+      "Saga, Volume 5 (Saga ...",
+      "Rat Queens, Vol. 3: ...",
+      "Princess Jellyfish 2-in-1 Omnibus, ...",
+      "Pop Gun War, Volume ...",
+      "Patience",
+      "Outcast, Vol. 1: A ...",
+      "orange: The Complete Collection ...",
+      "Lumberjanes, Vol. 2: Friendship ...",
+      "Lumberjanes, Vol. 1: Beware ...",
+      "Lumberjanes Vol. 3: A ...",
+      "I Hate Fairyland, Vol. ...",
+      "I am a Hero ...",
+      "Giant Days, Vol. 2 ...",
+      "Danganronpa Volume 1",
+      "Codename Baboushka, Volume 1: ...",
+      "Camp Midnight"
+    ],
+    "crawled_at": "2026-06-21T15:33:14.214725+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/classics_6/index.html",
+    "title": "Classics | \n     Books to Scrape - Sandbox",
+    "text": "Classics |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Secret Garden\nÂ£15.08\nIn stock\nThe Metamorphosis\nÂ£28.58\nIn stock\nThe Pilgrim's Progress\nÂ£50.26\nIn stock\nThe Hound of the ...\nÂ£14.82\nIn stock\nLittle Women (Little Women ...\nÂ£28.07\nIn stock\nGone with the Wind\nÂ£32.49\nIn stock\nCandide\nÂ£58.63\nIn stock\nAnimal Farm\nÂ£57.22\nIn stock\nWuthering Heights\nÂ£17.73\nIn stock\nThe Picture of Dorian ...\nÂ£29.70\nIn stock\nThe Complete Stories and ...\nÂ£26.78\nIn stock\nBeowulf\nÂ£38.35\nIn stock\nAnd Then There Were ...\nÂ£35.01\nIn stock\nThe Story of Hong ...\nÂ£43.19\nIn stock\nThe Little Prince\nÂ£45.42\nIn stock\nSense and Sensibility\nÂ£37.46\nIn stock\nOf Mice and Men\nÂ£47.11\nIn stock\nEmma\nÂ£32.93\nIn stock\nAlice in Wonderland (Alice's ...\nÂ£55.53\nIn stock",
+    "headings": [
+      "Classics",
+      "The Secret Garden",
+      "The Metamorphosis",
+      "The Pilgrim's Progress",
+      "The Hound of the ...",
+      "Little Women (Little Women ...",
+      "Gone with the Wind",
+      "Candide",
+      "Animal Farm",
+      "Wuthering Heights",
+      "The Picture of Dorian ...",
+      "The Complete Stories and ...",
+      "Beowulf",
+      "And Then There Were ...",
+      "The Story of Hong ...",
+      "The Little Prince",
+      "Sense and Sensibility",
+      "Of Mice and Men",
+      "Emma",
+      "Alice in Wonderland (Alice's ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:15.964997+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/philosophy_7/index.html",
+    "title": "Philosophy | \n     Books to Scrape - Sandbox",
+    "text": "Philosophy |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nSophie's World\nÂ£15.94\nIn stock\nThe Death of Humanity: ...\nÂ£58.11\nIn stock\nThe Stranger\nÂ£17.44\nIn stock\nProofs of God: Classical ...\nÂ£54.21\nIn stock\nKierkegaard: A Christian Missionary ...\nÂ£47.13\nIn stock\nAt The Existentialist CafÃ©: ...\nÂ£29.93\nIn stock\nCritique of Pure Reason\nÂ£20.75\nIn stock\nRun, Spot, Run: The ...\nÂ£20.02\nIn stock\nThe Nicomachean Ethics\nÂ£36.34\nIn stock\nMeditations\nÂ£25.89\nIn stock\nBeyond Good and Evil\nÂ£43.38\nIn stock",
+    "headings": [
+      "Philosophy",
+      "Sophie's World",
+      "The Death of Humanity: ...",
+      "The Stranger",
+      "Proofs of God: Classical ...",
+      "Kierkegaard: A Christian Missionary ...",
+      "At The Existentialist CafÃ©: ...",
+      "Critique of Pure Reason",
+      "Run, Spot, Run: The ...",
+      "The Nicomachean Ethics",
+      "Meditations",
+      "Beyond Good and Evil"
+    ],
+    "crawled_at": "2026-06-21T15:33:17.198434+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/romance_8/index.html",
+    "title": "Romance | \n     Books to Scrape - Sandbox",
+    "text": "Romance |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nChase Me (Paris Nights ...\nÂ£25.27\nIn stock\nBlack Dust\nÂ£34.53\nIn stock\nHer Backup Boyfriend (The ...\nÂ£33.97\nIn stock\nFirst and First (Five ...\nÂ£15.97\nIn stock\nFifty Shades Darker (Fifty ...\nÂ£21.96\nIn stock\nThe Wedding Dress\nÂ£24.12\nIn stock\nSuddenly in Love (Lake ...\nÂ£55.99\nIn stock\nSomething More Than This\nÂ£16.24\nIn stock\nDoing It Over (Most ...\nÂ£35.61\nIn stock\nThe Wedding Pact (The ...\nÂ£32.61\nIn stock\nHold Your Breath (Search ...\nÂ£28.82\nIn stock\nDirty (Dive Bar #1)\nÂ£40.83\nIn stock\nTake Me Home Tonight ...\nÂ£53.98\nIn stock\nOff the Hook (Fishing ...\nÂ£47.67\nIn stock\nA Gentleman's Position (Society ...\nÂ£14.75\nIn stock\nSit, Stay, Love\nÂ£20.90\nIn stock\nA Girl's Guide to ...\nÂ£31.30\nIn stock\nThe Perfect Play (Play ...\nÂ£59.99\nIn stock\nDark Lover (Black Dagger ...\nÂ£12.87\nIn stock\nChanging the Game (Play ...\nÂ£13.38\nIn stock\nPage 1 of 2\nnext",
+    "headings": [
+      "Romance",
+      "Chase Me (Paris Nights ...",
+      "Black Dust",
+      "Her Backup Boyfriend (The ...",
+      "First and First (Five ...",
+      "Fifty Shades Darker (Fifty ...",
+      "The Wedding Dress",
+      "Suddenly in Love (Lake ...",
+      "Something More Than This",
+      "Doing It Over (Most ...",
+      "The Wedding Pact (The ...",
+      "Hold Your Breath (Search ...",
+      "Dirty (Dive Bar #1)",
+      "Take Me Home Tonight ...",
+      "Off the Hook (Fishing ...",
+      "A Gentleman's Position (Society ...",
+      "Sit, Stay, Love",
+      "A Girl's Guide to ...",
+      "The Perfect Play (Play ...",
+      "Dark Lover (Black Dagger ...",
+      "Changing the Game (Play ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:18.489511+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/womens-fiction_9/index.html",
+    "title": "Womens Fiction | \n     Books to Scrape - Sandbox",
+    "text": "Womens Fiction |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nI Had a Nice ...\nÂ£57.36\nIn stock\nWill You Won't You ...\nÂ£13.86\nIn stock\nKeep Me Posted\nÂ£20.46\nIn stock\nGrey (Fifty Shades #4)\nÂ£48.49\nIn stock\nMeternity\nÂ£43.58\nIn stock\nSome Women\nÂ£13.73\nIn stock\nShopaholic Ties the Knot ...\nÂ£48.39\nIn stock\nCan You Keep a ...\nÂ£21.94\nIn stock\nTwenties Girl\nÂ£42.80\nIn stock\nThe Undomestic Goddess\nÂ£45.75\nIn stock\nThe Nanny Diaries (Nanny ...\nÂ£52.53\nIn stock\nThe Devil Wears Prada ...\nÂ£44.29\nIn stock\nSomething Borrowed (Darcy & ...\nÂ£48.96\nIn stock\nSomething Blue (Darcy & ...\nÂ£54.62\nIn stock\nI've Got Your Number\nÂ£19.69\nIn stock\nThe Edge of Reason ...\nÂ£19.18\nIn stock\nBridget Jones's Diary (Bridget ...\nÂ£29.82\nIn stock",
+    "headings": [
+      "Womens Fiction",
+      "I Had a Nice ...",
+      "Will You Won't You ...",
+      "Keep Me Posted",
+      "Grey (Fifty Shades #4)",
+      "Meternity",
+      "Some Women",
+      "Shopaholic Ties the Knot ...",
+      "Can You Keep a ...",
+      "Twenties Girl",
+      "The Undomestic Goddess",
+      "The Nanny Diaries (Nanny ...",
+      "The Devil Wears Prada ...",
+      "Something Borrowed (Darcy & ...",
+      "Something Blue (Darcy & ...",
+      "I've Got Your Number",
+      "The Edge of Reason ...",
+      "Bridget Jones's Diary (Bridget ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:19.711985+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/fiction_10/index.html",
+    "title": "Fiction | \n     Books to Scrape - Sandbox",
+    "text": "Fiction |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nSoumission\nÂ£50.10\nIn stock\nPrivate Paris (Private #10)\nÂ£47.61\nIn stock\nWe Love You, Charlie ...\nÂ£50.27\nIn stock\nThirst\nÂ£17.27\nIn stock\nThe Murder That Never ...\nÂ£54.11\nIn stock\nTuesday Nights in 1980\nÂ£21.04\nIn stock\nThe Vacationers\nÂ£42.15\nIn stock\nThe Regional Office Is ...\nÂ£51.36\nIn stock\nFinders Keepers (Bill Hodges ...\nÂ£53.53\nIn stock\nThe Time Keeper\nÂ£27.88\nIn stock\nThe Testament of Mary\nÂ£52.67\nIn stock\nThe First Hostage (J.B. ...\nÂ£25.85\nIn stock\nTake Me with You\nÂ£45.21\nIn stock\nStill Life with Bread ...\nÂ£26.41\nIn stock\nShtum\nÂ£55.84\nIn stock\nMy Name Is Lucy ...\nÂ£41.56\nIn stock\nMy Mrs. Brown\nÂ£24.48\nIn stock\nMr. Mercedes (Bill Hodges ...\nÂ£28.90\nIn stock\nI Am Pilgrim (Pilgrim ...\nÂ£10.60\nIn stock\nEligible (The Austen Project ...\nÂ£27.09\nIn stock\nPage 1 of 4\nnext",
+    "headings": [
+      "Fiction",
+      "Soumission",
+      "Private Paris (Private #10)",
+      "We Love You, Charlie ...",
+      "Thirst",
+      "The Murder That Never ...",
+      "Tuesday Nights in 1980",
+      "The Vacationers",
+      "The Regional Office Is ...",
+      "Finders Keepers (Bill Hodges ...",
+      "The Time Keeper",
+      "The Testament of Mary",
+      "The First Hostage (J.B. ...",
+      "Take Me with You",
+      "Still Life with Bread ...",
+      "Shtum",
+      "My Name Is Lucy ...",
+      "My Mrs. Brown",
+      "Mr. Mercedes (Bill Hodges ...",
+      "I Am Pilgrim (Pilgrim ...",
+      "Eligible (The Austen Project ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:20.997404+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/childrens_11/index.html",
+    "title": "Childrens | \n     Books to Scrape - Sandbox",
+    "text": "Childrens |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nBirdsong: A Story in ...\nÂ£54.64\nIn stock\nThe Bear and the ...\nÂ£36.89\nIn stock\nThe Secret of Dreadwillow ...\nÂ£56.13\nIn stock\nThe White Cat and ...\nÂ£58.08\nIn stock\nLittle Red\nÂ£13.47\nIn stock\nWalt Disney's Alice in ...\nÂ£12.96\nIn stock\nTwenty Yawns\nÂ£22.08\nIn stock\nRain Fish\nÂ£23.57\nIn stock\nOnce Was a Time\nÂ£18.28\nIn stock\nLuis Paints the World\nÂ£53.95\nIn stock\nNap-a-Roo\nÂ£25.08\nIn stock\nThe Whale\nÂ£35.96\nIn stock\nShrunken Treasures: Literary Classics, ...\nÂ£52.87\nIn stock\nRaymie Nightingale\nÂ£34.41\nIn stock\nPlaying from the Heart\nÂ£32.38\nIn stock\nMaybe Something Beautiful: How ...\nÂ£22.54\nIn stock\nThe Wild Robot\nÂ£56.07\nIn stock\nThe Thing About Jellyfish\nÂ£48.77\nIn stock\nThe Lonely Ones\nÂ£43.59\nIn stock\nThe Day the Crayons ...\nÂ£26.33\nIn stock\nPage 1 of 2\nnext",
+    "headings": [
+      "Childrens",
+      "Birdsong: A Story in ...",
+      "The Bear and the ...",
+      "The Secret of Dreadwillow ...",
+      "The White Cat and ...",
+      "Little Red",
+      "Walt Disney's Alice in ...",
+      "Twenty Yawns",
+      "Rain Fish",
+      "Once Was a Time",
+      "Luis Paints the World",
+      "Nap-a-Roo",
+      "The Whale",
+      "Shrunken Treasures: Literary Classics, ...",
+      "Raymie Nightingale",
+      "Playing from the Heart",
+      "Maybe Something Beautiful: How ...",
+      "The Wild Robot",
+      "The Thing About Jellyfish",
+      "The Lonely Ones",
+      "The Day the Crayons ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:22.257819+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/religion_12/index.html",
+    "title": "Religion | \n     Books to Scrape - Sandbox",
+    "text": "Religion |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nDon't Be a Jerk: ...\nÂ£37.97\nIn stock\nYou Are What You ...\nÂ£21.87\nIn stock\nGod: The Most Unpleasant ...\nÂ£30.03\nIn stock\nThe Book of Mormon\nÂ£24.57\nIn stock\nA History of God: ...\nÂ£27.62\nIn stock\nThe Bhagavad Gita\nÂ£57.49\nIn stock\nChoosing Our Religion: The ...\nÂ£28.42\nIn stock",
+    "headings": [
+      "Religion",
+      "Don't Be a Jerk: ...",
+      "You Are What You ...",
+      "God: The Most Unpleasant ...",
+      "The Book of Mormon",
+      "A History of God: ...",
+      "The Bhagavad Gita",
+      "Choosing Our Religion: The ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:23.351732+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/nonfiction_13/index.html",
+    "title": "Nonfiction | \n     Books to Scrape - Sandbox",
+    "text": "Nonfiction |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nWorlds Elsewhere: Journeys Around ...\nÂ£40.30\nIn stock\nThe Five Love Languages: ...\nÂ£31.05\nIn stock\nReasons to Stay Alive\nÂ£26.41\nIn stock\n#HigherSelfie: Wake Up Your ...\nÂ£23.11\nIn stock\nUnseen City: The Majesty ...\nÂ£44.18\nIn stock\nThrowing Rocks at the ...\nÂ£31.12\nIn stock\nThe Life-Changing Magic of ...\nÂ£16.77\nIn stock\nThe Gutsy Girl: Escapades ...\nÂ£37.13\nIn stock\nThe Electric Pencil: Drawings ...\nÂ£56.06\nIn stock\nSpark Joy: An Illustrated ...\nÂ£41.83\nIn stock\nReskilling America: Learning to ...\nÂ£19.83\nIn stock\nIn the Country We ...\nÂ£22.00\nIn stock\nEverydata: The Misinformation Hidden ...\nÂ£54.35\nIn stock\nCall the Nurse: True ...\nÂ£29.14\nIn stock\nAlgorithms to Live By: ...\nÂ£30.81\nIn stock\nThe Power of Now: ...\nÂ£43.54\nIn stock\nThe Omnivore's Dilemma: A ...\nÂ£38.21\nIn stock\nThe Genius of Birds\nÂ£17.24\nIn stock\nThe Artist's Way: A ...\nÂ£38.49\nIn stock\nSo You've Been Publicly ...\nÂ£12.23\nIn stock\nPage 1 of 6\nnext",
+    "headings": [
+      "Nonfiction",
+      "Worlds Elsewhere: Journeys Around ...",
+      "The Five Love Languages: ...",
+      "Reasons to Stay Alive",
+      "#HigherSelfie: Wake Up Your ...",
+      "Unseen City: The Majesty ...",
+      "Throwing Rocks at the ...",
+      "The Life-Changing Magic of ...",
+      "The Gutsy Girl: Escapades ...",
+      "The Electric Pencil: Drawings ...",
+      "Spark Joy: An Illustrated ...",
+      "Reskilling America: Learning to ...",
+      "In the Country We ...",
+      "Everydata: The Misinformation Hidden ...",
+      "Call the Nurse: True ...",
+      "Algorithms to Live By: ...",
+      "The Power of Now: ...",
+      "The Omnivore's Dilemma: A ...",
+      "The Genius of Birds",
+      "The Artist's Way: A ...",
+      "So You've Been Publicly ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:25.412729+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/music_14/index.html",
+    "title": "Music | \n     Books to Scrape - Sandbox",
+    "text": "Music |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nRip it Up and ...\nÂ£35.02\nIn stock\nOur Band Could Be ...\nÂ£57.25\nIn stock\nHow Music Works\nÂ£37.32\nIn stock\nLove Is a Mix ...\nÂ£18.03\nIn stock\nPlease Kill Me: The ...\nÂ£31.19\nIn stock\nKill 'Em and Leave: ...\nÂ£45.05\nIn stock\nChronicles, Vol. 1\nÂ£52.60\nIn stock\nThis Is Your Brain ...\nÂ£38.40\nIn stock\nOrchestra of Exiles: The ...\nÂ£12.36\nIn stock\nNo One Here Gets ...\nÂ£20.02\nIn stock\nLife\nÂ£31.58\nIn stock\nOld Records Never Die: ...\nÂ£55.66\nIn stock\nForever Rockers (The Rocker ...\nÂ£28.80\nIn stock",
+    "headings": [
+      "Music",
+      "Rip it Up and ...",
+      "Our Band Could Be ...",
+      "How Music Works",
+      "Love Is a Mix ...",
+      "Please Kill Me: The ...",
+      "Kill 'Em and Leave: ...",
+      "Chronicles, Vol. 1",
+      "This Is Your Brain ...",
+      "Orchestra of Exiles: The ...",
+      "No One Here Gets ...",
+      "Life",
+      "Old Records Never Die: ...",
+      "Forever Rockers (The Rocker ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:26.997146+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/default_15/index.html",
+    "title": "Default | \n     Books to Scrape - Sandbox",
+    "text": "Default |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Coming Woman: A ...\nÂ£17.93\nIn stock\nThe Boys in the ...\nÂ£22.60\nIn stock\nStarving Hearts (Triangular Trade ...\nÂ£13.99\nIn stock\nAmerica's Cradle of Quarterbacks: ...\nÂ£22.50\nIn stock\nAladdin and His Wonderful ...\nÂ£53.13\nIn stock\nPenny Maybe\nÂ£33.29\nIn stock\nMaude (1883-1993):She Grew Up ...\nÂ£18.02\nIn stock\nThe Inefficiency Assassin: Time ...\nÂ£20.59\nIn stock\nSoul Reader\nÂ£39.58\nIn stock\nBossypants\nÂ£49.46\nIn stock\nA World of Flavor: ...\nÂ£42.95\nIn stock\nA Piece of Sky, ...\nÂ£56.76\nIn stock\nTracing Numbers on a ...\nÂ£41.60\nIn stock\nThirteen Reasons Why\nÂ£52.72\nIn stock\nThe Secret (The Secret ...\nÂ£27.37\nIn stock\nThe Psychopath Test: A ...\nÂ£36.00\nIn stock\nThe Kite Runner\nÂ£41.82\nIn stock\nThe Girl on the ...\nÂ£55.02\nIn stock\nThe Emerald Mystery\nÂ£23.15\nIn stock\nThe Bridge to Consciousness: ...\nÂ£32.00\nIn stock\nPage 1 of 8\nnext",
+    "headings": [
+      "Default",
+      "The Coming Woman: A ...",
+      "The Boys in the ...",
+      "Starving Hearts (Triangular Trade ...",
+      "America's Cradle of Quarterbacks: ...",
+      "Aladdin and His Wonderful ...",
+      "Penny Maybe",
+      "Maude (1883-1993):She Grew Up ...",
+      "The Inefficiency Assassin: Time ...",
+      "Soul Reader",
+      "Bossypants",
+      "A World of Flavor: ...",
+      "A Piece of Sky, ...",
+      "Tracing Numbers on a ...",
+      "Thirteen Reasons Why",
+      "The Secret (The Secret ...",
+      "The Psychopath Test: A ...",
+      "The Kite Runner",
+      "The Girl on the ...",
+      "The Emerald Mystery",
+      "The Bridge to Consciousness: ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:28.631795+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/science-fiction_16/index.html",
+    "title": "Science Fiction | \n     Books to Scrape - Sandbox",
+    "text": "Science Fiction |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nMesaerion: The Best Science ...\nÂ£37.59\nIn stock\nJoin\nÂ£35.67\nIn stock\nWilliam Shakespeare's Star Wars: ...\nÂ£43.30\nIn stock\nThe Project\nÂ£10.65\nIn stock\nSoft Apocalypse\nÂ£26.12\nIn stock\nSleeping Giants (Themis Files ...\nÂ£48.74\nIn stock\nArena\nÂ£21.36\nIn stock\nFoundation (Foundation (Publication Order) ...\nÂ£32.42\nIn stock\nThe Restaurant at the ...\nÂ£10.92\nIn stock\nReady Player One\nÂ£19.07\nIn stock\nLife, the Universe and ...\nÂ£33.26\nIn stock\nDune (Dune #1)\nÂ£54.86\nIn stock\nDo Androids Dream of ...\nÂ£51.48\nIn stock\nThree Wishes (River of ...\nÂ£44.18\nIn stock\nThe Last Girl (The ...\nÂ£36.26\nIn stock\nHaving the Barbarian's Baby ...\nÂ£34.96\nIn stock",
+    "headings": [
+      "Science Fiction",
+      "Mesaerion: The Best Science ...",
+      "Join",
+      "William Shakespeare's Star Wars: ...",
+      "The Project",
+      "Soft Apocalypse",
+      "Sleeping Giants (Themis Files ...",
+      "Arena",
+      "Foundation (Foundation (Publication Order) ...",
+      "The Restaurant at the ...",
+      "Ready Player One",
+      "Life, the Universe and ...",
+      "Dune (Dune #1)",
+      "Do Androids Dream of ...",
+      "Three Wishes (River of ...",
+      "The Last Girl (The ...",
+      "Having the Barbarian's Baby ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:31.169596+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/sports-and-games_17/index.html",
+    "title": "Sports and Games | \n     Books to Scrape - Sandbox",
+    "text": "Sports and Games |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Book of Basketball: ...\nÂ£44.84\nIn stock\nFriday Night Lights: A ...\nÂ£51.22\nIn stock\nSugar Rush (Offensive Line ...\nÂ£24.42\nIn stock\nSettling the Score (The ...\nÂ£44.91\nIn stock\nIcing (Aces Hockey #2)\nÂ£40.44\nIn stock",
+    "headings": [
+      "Sports and Games",
+      "The Book of Basketball: ...",
+      "Friday Night Lights: A ...",
+      "Sugar Rush (Offensive Line ...",
+      "Settling the Score (The ...",
+      "Icing (Aces Hockey #2)"
+    ],
+    "crawled_at": "2026-06-21T15:33:32.683761+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html",
+    "title": "Add a comment | \n     Books to Scrape - Sandbox",
+    "text": "Add a comment |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Torch Is Passed: ...\nÂ£19.09\nIn stock\nThe Mindfulness and Acceptance ...\nÂ£23.89\nIn stock\nThe Art Forger\nÂ£40.76\nIn stock\nOn a Midnight Clear\nÂ£14.07\nIn stock\nJudo: Seven Steps to ...\nÂ£53.90\nIn stock\nShobu Samurai, Project Aryoku ...\nÂ£29.06\nIn stock\nModern Romance\nÂ£28.26\nIn stock\nThe White Queen (The ...\nÂ£25.91\nIn stock\nThe Song of Achilles\nÂ£37.40\nIn stock\nThe Immortal Life of ...\nÂ£40.67\nIn stock\nThe Dovekeepers\nÂ£48.78\nIn stock\nMore Than Music (Chasing ...\nÂ£37.61\nIn stock\nCode Name Verity (Code ...\nÂ£22.13\nIn stock\nCell\nÂ£20.29\nIn stock\nAngels Walking (Angels Walking ...\nÂ£34.20\nIn stock\nA Series of Catastrophes ...\nÂ£56.48\nIn stock\nA People's History of ...\nÂ£40.79\nIn stock\nA Brush of Wings ...\nÂ£55.51\nIn stock\nRook\nÂ£37.86\nIn stock\nThe Midnight Watch: A ...\nÂ£26.20\nIn stock\nPage 1 of 4\nnext",
+    "headings": [
+      "Add a comment",
+      "The Torch Is Passed: ...",
+      "The Mindfulness and Acceptance ...",
+      "The Art Forger",
+      "On a Midnight Clear",
+      "Judo: Seven Steps to ...",
+      "Shobu Samurai, Project Aryoku ...",
+      "Modern Romance",
+      "The White Queen (The ...",
+      "The Song of Achilles",
+      "The Immortal Life of ...",
+      "The Dovekeepers",
+      "More Than Music (Chasing ...",
+      "Code Name Verity (Code ...",
+      "Cell",
+      "Angels Walking (Angels Walking ...",
+      "A Series of Catastrophes ...",
+      "A People's History of ...",
+      "A Brush of Wings ...",
+      "Rook",
+      "The Midnight Watch: A ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:34.673660+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/fantasy_19/index.html",
+    "title": "Fantasy | \n     Books to Scrape - Sandbox",
+    "text": "Fantasy |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nUnicorn Tracks\nÂ£18.78\nIn stock\nSaga, Volume 6 (Saga ...\nÂ£25.02\nIn stock\nPrincess Between Worlds (Wide-Awake ...\nÂ£13.34\nIn stock\nMasks and Shadows\nÂ£56.40\nIn stock\nCrown of Midnight (Throne ...\nÂ£43.29\nIn stock\nAvatar: The Last Airbender: ...\nÂ£28.09\nIn stock\nA Court of Thorns ...\nÂ£52.37\nIn stock\nThrone of Glass (Throne ...\nÂ£35.07\nIn stock\nThe Glittering Court (The ...\nÂ£44.28\nIn stock\nHollow City (Miss Peregrineâs ...\nÂ£42.98\nIn stock\nThe Star-Touched Queen\nÂ£46.02\nIn stock\nThe Hidden Oracle (The ...\nÂ£52.26\nIn stock\nThe Bane Chronicles (The ...\nÂ£44.73\nIn stock\nIsland of Dragons (Unwanteds ...\nÂ£29.65\nIn stock\nDemigods & Magicians: Percy ...\nÂ£37.51\nIn stock\nCity of Glass (The ...\nÂ£56.02\nIn stock\nSearching for Meaning in ...\nÂ£38.73\nIn stock\nThe Star-Touched Queen\nÂ£32.30\nIn stock\nA Shard of Ice ...\nÂ£56.63\nIn stock\nKing's Folly (The Kinsman ...\nÂ£39.61\nIn stock\nPage 1 of 3\nnext",
+    "headings": [
+      "Fantasy",
+      "Unicorn Tracks",
+      "Saga, Volume 6 (Saga ...",
+      "Princess Between Worlds (Wide-Awake ...",
+      "Masks and Shadows",
+      "Crown of Midnight (Throne ...",
+      "Avatar: The Last Airbender: ...",
+      "A Court of Thorns ...",
+      "Throne of Glass (Throne ...",
+      "The Glittering Court (The ...",
+      "Hollow City (Miss Peregrineâs ...",
+      "The Star-Touched Queen",
+      "The Hidden Oracle (The ...",
+      "The Bane Chronicles (The ...",
+      "Island of Dragons (Unwanteds ...",
+      "Demigods & Magicians: Percy ...",
+      "City of Glass (The ...",
+      "Searching for Meaning in ...",
+      "The Star-Touched Queen",
+      "A Shard of Ice ...",
+      "King's Folly (The Kinsman ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:38.131881+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/new-adult_20/index.html",
+    "title": "New Adult | \n     Books to Scrape - Sandbox",
+    "text": "New Adult |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nWithout Borders (Wanderlove #1)\nÂ£45.07\nIn stock\nThe Mistake (Off-Campus #2)\nÂ£43.29\nIn stock\nThe Matchmaker's Playbook (Wingmen ...\nÂ£55.85\nIn stock\nThe Hook Up (Game ...\nÂ£36.29\nIn stock\nShameless\nÂ£58.35\nIn stock\nOff Sides (Off #1)\nÂ£39.45\nIn stock",
+    "headings": [
+      "New Adult",
+      "Without Borders (Wanderlove #1)",
+      "The Mistake (Off-Campus #2)",
+      "The Matchmaker's Playbook (Wingmen ...",
+      "The Hook Up (Game ...",
+      "Shameless",
+      "Off Sides (Off #1)"
+    ],
+    "crawled_at": "2026-06-21T15:33:39.735248+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/young-adult_21/index.html",
+    "title": "Young Adult | \n     Books to Scrape - Sandbox",
+    "text": "Young Adult |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Requiem Red\nÂ£22.65\nIn stock\nSet Me Free\nÂ£17.46\nIn stock\nThe Natural History of ...\nÂ£45.22\nIn stock\nObsidian (Lux #1)\nÂ£14.86\nIn stock\nBurning\nÂ£28.81\nIn stock\nA Fierce and Subtle ...\nÂ£28.13\nIn stock\nScarlett Epstein Hates It ...\nÂ£43.55\nIn stock\nNightingale, Sing\nÂ£38.28\nIn stock\nLibrary of Souls (Miss ...\nÂ£48.56\nIn stock\nFrostbite (Vampire Academy #2)\nÂ£29.99\nIn stock\nWild Swans\nÂ£14.36\nIn stock\nUntil Friday Night (The ...\nÂ£46.31\nIn stock\nThis Is Where It ...\nÂ£27.12\nIn stock\nThe Darkest Lie\nÂ£35.35\nIn stock\nMy Kind of Crazy\nÂ£40.36\nIn stock\nDon't Get Caught\nÂ£55.35\nIn stock\nCatching Jordan (Hundred Oaks)\nÂ£50.83\nIn stock\nAristotle and Dante Discover ...\nÂ£58.14\nIn stock\nThe Epidemic (The Program ...\nÂ£14.44\nIn stock\nStars Above (The Lunar ...\nÂ£48.05\nIn stock\nPage 1 of 3\nnext",
+    "headings": [
+      "Young Adult",
+      "The Requiem Red",
+      "Set Me Free",
+      "The Natural History of ...",
+      "Obsidian (Lux #1)",
+      "Burning",
+      "A Fierce and Subtle ...",
+      "Scarlett Epstein Hates It ...",
+      "Nightingale, Sing",
+      "Library of Souls (Miss ...",
+      "Frostbite (Vampire Academy #2)",
+      "Wild Swans",
+      "Until Friday Night (The ...",
+      "This Is Where It ...",
+      "The Darkest Lie",
+      "My Kind of Crazy",
+      "Don't Get Caught",
+      "Catching Jordan (Hundred Oaks)",
+      "Aristotle and Dante Discover ...",
+      "The Epidemic (The Program ...",
+      "Stars Above (The Lunar ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:43.235772+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/science_22/index.html",
+    "title": "Science | \n     Books to Scrape - Sandbox",
+    "text": "Science |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Most Perfect Thing: ...\nÂ£42.96\nIn stock\nImmunity: How Elie Metchnikoff ...\nÂ£57.36\nIn stock\nSorting the Beef from ...\nÂ£44.74\nIn stock\nTipping Point for Planet ...\nÂ£37.55\nIn stock\nThe Fabric of the ...\nÂ£55.91\nIn stock\nDiary of a Citizen ...\nÂ£28.41\nIn stock\nThe Origin of Species\nÂ£10.01\nIn stock\nThe Grand Design\nÂ£13.76\nIn stock\nPeak: Secrets from the ...\nÂ£16.28\nIn stock\nThe Elegant Universe: Superstrings, ...\nÂ£13.03\nIn stock\nThe Disappearing Spoon: And ...\nÂ£57.35\nIn stock\nSurely You're Joking, Mr. ...\nÂ£25.83\nIn stock\nSeven Brief Lessons on ...\nÂ£30.60\nIn stock\nThe Selfish Gene\nÂ£29.45\nIn stock",
+    "headings": [
+      "Science",
+      "The Most Perfect Thing: ...",
+      "Immunity: How Elie Metchnikoff ...",
+      "Sorting the Beef from ...",
+      "Tipping Point for Planet ...",
+      "The Fabric of the ...",
+      "Diary of a Citizen ...",
+      "The Origin of Species",
+      "The Grand Design",
+      "Peak: Secrets from the ...",
+      "The Elegant Universe: Superstrings, ...",
+      "The Disappearing Spoon: And ...",
+      "Surely You're Joking, Mr. ...",
+      "Seven Brief Lessons on ...",
+      "The Selfish Gene"
+    ],
+    "crawled_at": "2026-06-21T15:33:45.042480+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/poetry_23/index.html",
+    "title": "Poetry | \n     Books to Scrape - Sandbox",
+    "text": "Poetry |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nA Light in the ...\nÂ£51.77\nIn stock\nThe Black Maria\nÂ£52.15\nIn stock\nShakespeare's Sonnets\nÂ£20.66\nIn stock\nOlio\nÂ£23.88\nIn stock\nYou can't bury them ...\nÂ£33.63\nIn stock\nSlow States of Collapse: ...\nÂ£57.31\nIn stock\nUntitled Collection: Sabbath Poems ...\nÂ£14.27\nIn stock\nPoems That Make Grown ...\nÂ£14.19\nIn stock\nNight Sky with Exit ...\nÂ£41.05\nIn stock\nsalt.\nÂ£46.78\nIn stock\nQuarter Life Poetry: Poems ...\nÂ£50.89\nIn stock\nOut of Print: City ...\nÂ£53.64\nIn stock\nLes Fleurs du Mal\nÂ£29.04\nIn stock\nHowl and Other Poems\nÂ£40.45\nIn stock\nLeave This Song Behind: ...\nÂ£51.17\nIn stock\nThe Collected Poems of ...\nÂ£15.42\nIn stock\nThe Crossover\nÂ£38.77\nIn stock\nBooked\nÂ£17.49\nIn stock\nTwenty Love Poems and ...\nÂ£30.95\nIn stock",
+    "headings": [
+      "Poetry",
+      "A Light in the ...",
+      "The Black Maria",
+      "Shakespeare's Sonnets",
+      "Olio",
+      "You can't bury them ...",
+      "Slow States of Collapse: ...",
+      "Untitled Collection: Sabbath Poems ...",
+      "Poems That Make Grown ...",
+      "Night Sky with Exit ...",
+      "salt.",
+      "Quarter Life Poetry: Poems ...",
+      "Out of Print: City ...",
+      "Les Fleurs du Mal",
+      "Howl and Other Poems",
+      "Leave This Song Behind: ...",
+      "The Collected Poems of ...",
+      "The Crossover",
+      "Booked",
+      "Twenty Love Poems and ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:47.827885+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/paranormal_24/index.html",
+    "title": "Paranormal | \n     Books to Scrape - Sandbox",
+    "text": "Paranormal |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nVampire Knight, Vol. 1 ...\nÂ£15.40\nIn stock",
+    "headings": [
+      "Paranormal",
+      "Vampire Knight, Vol. 1 ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:49.184342+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/art_25/index.html",
+    "title": "Art | \n     Books to Scrape - Sandbox",
+    "text": "Art |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nWall and Piece\nÂ£44.18\nIn stock\nFeathers: Displays of Brilliant ...\nÂ£49.05\nIn stock\nArt and Fear: Observations ...\nÂ£48.63\nIn stock\nThe New Drawing on ...\nÂ£43.02\nIn stock\nHistory of Beauty\nÂ£10.29\nIn stock\nThe Story of Art\nÂ£41.14\nIn stock\nThe Art Book\nÂ£32.34\nIn stock\nWays of Seeing\nÂ£39.51\nIn stock",
+    "headings": [
+      "Art",
+      "Wall and Piece",
+      "Feathers: Displays of Brilliant ...",
+      "Art and Fear: Observations ...",
+      "The New Drawing on ...",
+      "History of Beauty",
+      "The Story of Art",
+      "The Art Book",
+      "Ways of Seeing"
+    ],
+    "crawled_at": "2026-06-21T15:33:51.214163+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/psychology_26/index.html",
+    "title": "Psychology | \n     Books to Scrape - Sandbox",
+    "text": "Psychology |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Lucifer Effect: Understanding ...\nÂ£10.40\nIn stock\nThe Golden Condom: And ...\nÂ£39.43\nIn stock\nIt Didn't Start with ...\nÂ£56.27\nIn stock\nAn Unquiet Mind: A ...\nÂ£21.30\nIn stock\nThinking, Fast and Slow\nÂ£21.14\nIn stock\nCivilization and Its Discontents\nÂ£59.95\nIn stock\n8 Keys to Mental ...\nÂ£31.04\nIn stock",
+    "headings": [
+      "Psychology",
+      "The Lucifer Effect: Understanding ...",
+      "The Golden Condom: And ...",
+      "It Didn't Start with ...",
+      "An Unquiet Mind: A ...",
+      "Thinking, Fast and Slow",
+      "Civilization and Its Discontents",
+      "8 Keys to Mental ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:53.237564+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/autobiography_27/index.html",
+    "title": "Autobiography | \n     Books to Scrape - Sandbox",
+    "text": "Autobiography |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Argonauts\nÂ£10.93\nIn stock\nM Train\nÂ£27.18\nIn stock\nLab Girl\nÂ£40.85\nIn stock\nApproval Junkie: Adventures in ...\nÂ£58.81\nIn stock\nRunning with Scissors\nÂ£12.91\nIn stock\nMe Talk Pretty One ...\nÂ£57.60\nIn stock\nLust & Wonder\nÂ£11.87\nIn stock\nLife Without a Recipe\nÂ£59.04\nIn stock\nA Heartbreaking Work of ...\nÂ£54.29\nIn stock",
+    "headings": [
+      "Autobiography",
+      "The Argonauts",
+      "M Train",
+      "Lab Girl",
+      "Approval Junkie: Adventures in ...",
+      "Running with Scissors",
+      "Me Talk Pretty One ...",
+      "Lust & Wonder",
+      "Life Without a Recipe",
+      "A Heartbreaking Work of ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:54.785057+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/parenting_28/index.html",
+    "title": "Parenting | \n     Books to Scrape - Sandbox",
+    "text": "Parenting |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nCatastrophic Happiness: Finding Joy ...\nÂ£37.35\nIn stock",
+    "headings": [
+      "Parenting",
+      "Catastrophic Happiness: Finding Joy ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:56.980317+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/adult-fiction_29/index.html",
+    "title": "Adult Fiction | \n     Books to Scrape - Sandbox",
+    "text": "Adult Fiction |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nFifty Shades Freed (Fifty ...\nÂ£15.36\nIn stock",
+    "headings": [
+      "Adult Fiction",
+      "Fifty Shades Freed (Fifty ..."
+    ],
+    "crawled_at": "2026-06-21T15:33:59.030966+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/humor_30/index.html",
+    "title": "Humor | \n     Books to Scrape - Sandbox",
+    "text": "Humor |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Long Haul (Diary ...\nÂ£44.07\nIn stock\nOld School (Diary of ...\nÂ£11.83\nIn stock\nI Know What I'm ...\nÂ£25.98\nIn stock\nHyperbole and a Half: ...\nÂ£14.75\nIn stock\nDress Your Family in ...\nÂ£43.68\nIn stock\nToddlers Are A**holes: It's ...\nÂ£25.55\nIn stock\nWhen You Are Engulfed ...\nÂ£30.89\nIn stock\nNaked\nÂ£31.69\nIn stock\nLamb: The Gospel According ...\nÂ£55.50\nIn stock\nHolidays on Ice\nÂ£51.07\nIn stock",
+    "headings": [
+      "Humor",
+      "The Long Haul (Diary ...",
+      "Old School (Diary of ...",
+      "I Know What I'm ...",
+      "Hyperbole and a Half: ...",
+      "Dress Your Family in ...",
+      "Toddlers Are A**holes: It's ...",
+      "When You Are Engulfed ...",
+      "Naked",
+      "Lamb: The Gospel According ...",
+      "Holidays on Ice"
+    ],
+    "crawled_at": "2026-06-21T15:34:01.314095+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/horror_31/index.html",
+    "title": "Horror | \n     Books to Scrape - Sandbox",
+    "text": "Horror |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nSecurity\nÂ£39.25\nIn stock\nFollow You Home\nÂ£21.36\nIn stock\nThe Loney\nÂ£23.40\nIn stock\nPet Sematary\nÂ£10.56\nIn stock\nDoctor Sleep (The Shining ...\nÂ£40.12\nIn stock\nPsycho: Sanitarium (Psycho #1.5)\nÂ£36.97\nIn stock\nCan You Keep a ...\nÂ£48.64\nIn stock\nRed Dragon (Hannibal Lecter ...\nÂ£23.37\nIn stock\nDracula the Un-Dead\nÂ£35.63\nIn stock\nNight Shift (Night Shift ...\nÂ£12.75\nIn stock\nNeedful Things\nÂ£47.51\nIn stock\nMisery\nÂ£34.79\nIn stock\nIt\nÂ£25.01\nIn stock\n'Salem's Lot\nÂ£49.56\nIn stock\nThe Stand\nÂ£57.86\nIn stock\nThe Girl with All ...\nÂ£49.47\nIn stock\nHouse of Leaves\nÂ£54.89\nIn stock",
+    "headings": [
+      "Horror",
+      "Security",
+      "Follow You Home",
+      "The Loney",
+      "Pet Sematary",
+      "Doctor Sleep (The Shining ...",
+      "Psycho: Sanitarium (Psycho #1.5)",
+      "Can You Keep a ...",
+      "Red Dragon (Hannibal Lecter ...",
+      "Dracula the Un-Dead",
+      "Night Shift (Night Shift ...",
+      "Needful Things",
+      "Misery",
+      "It",
+      "'Salem's Lot",
+      "The Stand",
+      "The Girl with All ...",
+      "House of Leaves"
+    ],
+    "crawled_at": "2026-06-21T15:34:07.288683+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/history_32/index.html",
+    "title": "History | \n     Books to Scrape - Sandbox",
+    "text": "History |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nSapiens: A Brief History ...\nÂ£54.23\nIn stock\nUnbound: How Eight Technologies ...\nÂ£25.52\nIn stock\nThe Age of Genius: ...\nÂ£19.73\nIn stock\nPolitical Suicide: Missteps, Peccadilloes, ...\nÂ£36.28\nIn stock\nThomas Jefferson and the ...\nÂ£59.64\nIn stock\nZealot: The Life and ...\nÂ£24.70\nIn stock\nA Distant Mirror: The ...\nÂ£14.58\nIn stock\n1491: New Revelations of ...\nÂ£21.80\nIn stock\nBrilliant Beacons: A History ...\nÂ£11.45\nIn stock\n\"Most Blessed of the ...\nÂ£44.48\nIn stock\nA Short History of ...\nÂ£52.40\nIn stock\nThe Rise and Fall ...\nÂ£39.67\nIn stock\nCatherine the Great: Portrait ...\nÂ£58.55\nIn stock\nThe Mathews Men: Seven ...\nÂ£42.91\nIn stock\nThe Hiding Place\nÂ£55.91\nIn stock\nAmerica's War for the ...\nÂ£51.22\nIn stock\nThe Guns of August\nÂ£14.54\nIn stock\nHouse of Lost Worlds: ...\nÂ£43.70\nIn stock",
+    "headings": [
+      "History",
+      "Sapiens: A Brief History ...",
+      "Unbound: How Eight Technologies ...",
+      "The Age of Genius: ...",
+      "Political Suicide: Missteps, Peccadilloes, ...",
+      "Thomas Jefferson and the ...",
+      "Zealot: The Life and ...",
+      "A Distant Mirror: The ...",
+      "1491: New Revelations of ...",
+      "Brilliant Beacons: A History ...",
+      "\"Most Blessed of the ...",
+      "A Short History of ...",
+      "The Rise and Fall ...",
+      "Catherine the Great: Portrait ...",
+      "The Mathews Men: Seven ...",
+      "The Hiding Place",
+      "America's War for the ...",
+      "The Guns of August",
+      "House of Lost Worlds: ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:10.178552+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/food-and-drink_33/index.html",
+    "title": "Food and Drink | \n     Books to Scrape - Sandbox",
+    "text": "Food and Drink |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nFoolproof Preserving: A Guide ...\nÂ£30.52\nIn stock\nThe Pioneer Woman Cooks: ...\nÂ£56.41\nIn stock\nMy Paris Kitchen: Recipes ...\nÂ£33.37\nIn stock\nMama Tried: Traditional Italian ...\nÂ£14.02\nIn stock\nLayered: Baking, Building, and ...\nÂ£40.11\nIn stock\nThe Nerdy Nummies Cookbook: ...\nÂ£37.34\nIn stock\nThe Love and Lemons ...\nÂ£37.60\nIn stock\nThe Cookies & Cups ...\nÂ£41.25\nIn stock\nDeliciously Ella Every Day: ...\nÂ£42.16\nIn stock\nThe Help Yourself Cookbook ...\nÂ£28.77\nIn stock\nIt's All Easy: Healthy, ...\nÂ£19.55\nIn stock\nBarefoot Contessa Back to ...\nÂ£28.01\nIn stock\nBarefoot Contessa at Home: ...\nÂ£50.62\nIn stock\nMy Kitchen Year: 136 ...\nÂ£11.53\nIn stock\nEveryday Italian: 125 Simple ...\nÂ£20.10\nIn stock\nA la Mode: 120 ...\nÂ£38.77\nIn stock\nCravings: Recipes for What ...\nÂ£20.50\nIn stock\nThe Moosewood Cookbook: Recipes ...\nÂ£12.34\nIn stock\n32 Yolks\nÂ£53.63\nIn stock\nNaturally Lean: 125 Nourishing ...\nÂ£11.38\nIn stock\nPage 1 of 2\nnext",
+    "headings": [
+      "Food and Drink",
+      "Foolproof Preserving: A Guide ...",
+      "The Pioneer Woman Cooks: ...",
+      "My Paris Kitchen: Recipes ...",
+      "Mama Tried: Traditional Italian ...",
+      "Layered: Baking, Building, and ...",
+      "The Nerdy Nummies Cookbook: ...",
+      "The Love and Lemons ...",
+      "The Cookies & Cups ...",
+      "Deliciously Ella Every Day: ...",
+      "The Help Yourself Cookbook ...",
+      "It's All Easy: Healthy, ...",
+      "Barefoot Contessa Back to ...",
+      "Barefoot Contessa at Home: ...",
+      "My Kitchen Year: 136 ...",
+      "Everyday Italian: 125 Simple ...",
+      "A la Mode: 120 ...",
+      "Cravings: Recipes for What ...",
+      "The Moosewood Cookbook: Recipes ...",
+      "32 Yolks",
+      "Naturally Lean: 125 Nourishing ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:13.687391+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/christian-fiction_34/index.html",
+    "title": "Christian Fiction | \n     Books to Scrape - Sandbox",
+    "text": "Christian Fiction |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nRedeeming Love\nÂ£20.47\nIn stock\nClose to You\nÂ£49.46\nIn stock\nShadows of the Past ...\nÂ£39.67\nIn stock\nLike Never Before (Walker ...\nÂ£28.77\nIn stock\nCounted With the Stars ...\nÂ£17.97\nIn stock\nIf I Run (If ...\nÂ£49.97\nIn stock",
+    "headings": [
+      "Christian Fiction",
+      "Redeeming Love",
+      "Close to You",
+      "Shadows of the Past ...",
+      "Like Never Before (Walker ...",
+      "Counted With the Stars ...",
+      "If I Run (If ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:15.323365+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/business_35/index.html",
+    "title": "Business | \n     Books to Scrape - Sandbox",
+    "text": "Business |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Dirty Little Secrets ...\nÂ£33.34\nIn stock\nThe Third Wave: An ...\nÂ£12.61\nIn stock\nThe 10% Entrepreneur: Live ...\nÂ£27.55\nIn stock\nShoe Dog: A Memoir ...\nÂ£23.99\nIn stock\nMade to Stick: Why ...\nÂ£38.85\nIn stock\nQuench Your Own Thirst: ...\nÂ£43.14\nIn stock\nThe Art of Startup ...\nÂ£21.00\nIn stock\nBorn for This: How ...\nÂ£21.59\nIn stock\nThe E-Myth Revisited: Why ...\nÂ£36.91\nIn stock\nRich Dad, Poor Dad\nÂ£51.74\nIn stock\nThe Lean Startup: How ...\nÂ£33.92\nIn stock\nRework\nÂ£44.88\nIn stock",
+    "headings": [
+      "Business",
+      "The Dirty Little Secrets ...",
+      "The Third Wave: An ...",
+      "The 10% Entrepreneur: Live ...",
+      "Shoe Dog: A Memoir ...",
+      "Made to Stick: Why ...",
+      "Quench Your Own Thirst: ...",
+      "The Art of Startup ...",
+      "Born for This: How ...",
+      "The E-Myth Revisited: Why ...",
+      "Rich Dad, Poor Dad",
+      "The Lean Startup: How ...",
+      "Rework"
+    ],
+    "crawled_at": "2026-06-21T15:34:17.809624+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/biography_36/index.html",
+    "title": "Biography | \n     Books to Scrape - Sandbox",
+    "text": "Biography |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nLouisa: The Extraordinary Life ...\nÂ£16.85\nIn stock\nSetting the World on ...\nÂ£21.15\nIn stock\nThe Faith of Christopher ...\nÂ£39.55\nIn stock\nBenjamin Franklin: An American ...\nÂ£48.19\nIn stock\nThe Rise of Theodore ...\nÂ£42.57\nIn stock",
+    "headings": [
+      "Biography",
+      "Louisa: The Extraordinary Life ...",
+      "Setting the World on ...",
+      "The Faith of Christopher ...",
+      "Benjamin Franklin: An American ...",
+      "The Rise of Theodore ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:19.467215+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/thriller_37/index.html",
+    "title": "Thriller | \n     Books to Scrape - Sandbox",
+    "text": "Thriller |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nIn Her Wake\nÂ£12.84\nIn stock\nThe Elephant Tree\nÂ£23.82\nIn stock\nBehind Closed Doors\nÂ£52.22\nIn stock\nYou (You #1)\nÂ£43.61\nIn stock\nThe Guilty (Will Robie ...\nÂ£13.82\nIn stock\nThe 14th Colony (Cotton ...\nÂ£39.24\nIn stock\nGive It Back\nÂ£18.32\nIn stock\nKilling Floor (Jack Reacher ...\nÂ£31.49\nIn stock\nThe Bone Hunters (Lexy ...\nÂ£59.71\nIn stock\nFar From True (Promise ...\nÂ£34.93\nIn stock\nThe Travelers\nÂ£15.77\nIn stock",
+    "headings": [
+      "Thriller",
+      "In Her Wake",
+      "The Elephant Tree",
+      "Behind Closed Doors",
+      "You (You #1)",
+      "The Guilty (Will Robie ...",
+      "The 14th Colony (Cotton ...",
+      "Give It Back",
+      "Killing Floor (Jack Reacher ...",
+      "The Bone Hunters (Lexy ...",
+      "Far From True (Promise ...",
+      "The Travelers"
+    ],
+    "crawled_at": "2026-06-21T15:34:21.343696+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/contemporary_38/index.html",
+    "title": "Contemporary | \n     Books to Scrape - Sandbox",
+    "text": "Contemporary |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nWhen We Collided\nÂ£31.77\nIn stock\nSomeone Like You (The ...\nÂ£52.79\nIn stock\nWe Are All Completely ...\nÂ£24.04\nIn stock",
+    "headings": [
+      "Contemporary",
+      "When We Collided",
+      "Someone Like You (The ...",
+      "We Are All Completely ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:23.018198+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/spirituality_39/index.html",
+    "title": "Spirituality | \n     Books to Scrape - Sandbox",
+    "text": "Spirituality |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Four Agreements: A ...\nÂ£17.66\nIn stock\nThe Activist's Tao Te ...\nÂ£32.24\nIn stock\nChasing Heaven: What Dying ...\nÂ£37.80\nIn stock\nIf I Gave You ...\nÂ£20.91\nIn stock\nUnreasonable Hope: Finding Faith ...\nÂ£46.33\nIn stock\nA New Earth: Awakening ...\nÂ£55.65\nIn stock",
+    "headings": [
+      "Spirituality",
+      "The Four Agreements: A ...",
+      "The Activist's Tao Te ...",
+      "Chasing Heaven: What Dying ...",
+      "If I Gave You ...",
+      "Unreasonable Hope: Finding Faith ...",
+      "A New Earth: Awakening ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:25.046083+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/academic_40/index.html",
+    "title": "Academic | \n     Books to Scrape - Sandbox",
+    "text": "Academic |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nLogan Kade (Fallen Crest ...\nÂ£13.12\nIn stock",
+    "headings": [
+      "Academic",
+      "Logan Kade (Fallen Crest ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:26.398358+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/self-help_41/index.html",
+    "title": "Self Help | \n     Books to Scrape - Sandbox",
+    "text": "Self Help |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nOnline Marketing for Busy ...\nÂ£46.35\nIn stock\nHow to Be Miserable: ...\nÂ£46.03\nIn stock\nOverload: How to Unplug, ...\nÂ£52.15\nIn stock\nYou Are a Badass: ...\nÂ£12.08\nIn stock\nHow to Stop Worrying ...\nÂ£46.49\nIn stock",
+    "headings": [
+      "Self Help",
+      "Online Marketing for Busy ...",
+      "How to Be Miserable: ...",
+      "Overload: How to Unplug, ...",
+      "You Are a Badass: ...",
+      "How to Stop Worrying ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:29.015705+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/historical_42/index.html",
+    "title": "Historical | \n     Books to Scrape - Sandbox",
+    "text": "Historical |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nAll the Light We ...\nÂ£29.87\nIn stock\nThe Girl You Left ...\nÂ£15.79\nIn stock",
+    "headings": [
+      "Historical",
+      "All the Light We ...",
+      "The Girl You Left ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:30.359503+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/christian_43/index.html",
+    "title": "Christian | \n     Books to Scrape - Sandbox",
+    "text": "Christian |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\n(Un)Qualified: How God Uses ...\nÂ£54.00\nIn stock\nCrazy Love: Overwhelmed by ...\nÂ£47.72\nIn stock\nBlue Like Jazz: Nonreligious ...\nÂ£25.77\nIn stock",
+    "headings": [
+      "Christian",
+      "(Un)Qualified: How God Uses ...",
+      "Crazy Love: Overwhelmed by ...",
+      "Blue Like Jazz: Nonreligious ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:32.171380+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/suspense_44/index.html",
+    "title": "Suspense | \n     Books to Scrape - Sandbox",
+    "text": "Suspense |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nSilence in the Dark ...\nÂ£58.33\nIn stock",
+    "headings": [
+      "Suspense",
+      "Silence in the Dark ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:33.806316+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/short-stories_45/index.html",
+    "title": "Short Stories | \n     Books to Scrape - Sandbox",
+    "text": "Short Stories |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Grownup\nÂ£35.88\nIn stock",
+    "headings": [
+      "Short Stories",
+      "The Grownup"
+    ],
+    "crawled_at": "2026-06-21T15:34:35.376811+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/novels_46/index.html",
+    "title": "Novels | \n     Books to Scrape - Sandbox",
+    "text": "Novels |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nSuzie Snowflake: One beautiful ...\nÂ£54.81\nIn stock",
+    "headings": [
+      "Novels",
+      "Suzie Snowflake: One beautiful ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:36.865007+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/health_47/index.html",
+    "title": "Health | \n     Books to Scrape - Sandbox",
+    "text": "Health |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nThe Bulletproof Diet: Lose ...\nÂ£49.05\nIn stock\nEat Fat, Get Thin\nÂ£54.07\nIn stock\n10-Day Green Smoothie Cleanse: ...\nÂ£49.71\nIn stock\nThe Art and Science ...\nÂ£52.98\nIn stock",
+    "headings": [
+      "Health",
+      "The Bulletproof Diet: Lose ...",
+      "Eat Fat, Get Thin",
+      "10-Day Green Smoothie Cleanse: ...",
+      "The Art and Science ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:38.945231+00:00"
+  },
+  {
+    "url": "https://books.toscrape.com/catalogue/category/books/politics_48/index.html",
+    "title": "Politics | \n     Books to Scrape - Sandbox",
+    "text": "Politics |\nBooks to Scrape - Sandbox\nWarning!\nThis is a demo website for web scraping purposes. Prices and ratings here were randomly assigned and have no real meaning.\nLibertarianism for Beginners\nÂ£51.33\nIn stock\nWhy the Right Went ...\nÂ£52.65\nIn stock\nEqual Is Unfair: America's ...\nÂ£56.86\nIn stock",
+    "headings": [
+      "Politics",
+      "Libertarianism for Beginners",
+      "Why the Right Went ...",
+      "Equal Is Unfair: America's ..."
+    ],
+    "crawled_at": "2026-06-21T15:34:40.506370+00:00"
   }
 ]
