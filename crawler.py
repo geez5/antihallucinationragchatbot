@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
-START_URL = "https://en.wikipedia.org"  # <- CHANGE THIS TO YOUR WEBSITE URL
+START_URL = "https://books.toscrape.com"  # <- CHANGE THIS TO YOUR WEBSITE URL
 REQUEST_TIMEOUT = 10  # seconds
 RATE_LIMIT_DELAY = 0.5  # seconds between requests
 MIN_TEXT_LENGTH = 100  # minimum characters of clean text to save
