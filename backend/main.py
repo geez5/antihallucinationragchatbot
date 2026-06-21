@@ -66,12 +66,8 @@ EMBEDDING_MODEL  = "models/gemini-embedding-001"
 # ChromaDB
 from chromadb.config import Settings
 
+# DB path is persistent
 DB_PATH = "./chroma_db"
-
-if os.path.exists(DB_PATH):
-    shutil.rmtree(DB_PATH)
-
-print("Old Chroma DB removed")
 
 chroma_client = chromadb.PersistentClient(
     path=DB_PATH,
